@@ -11,9 +11,26 @@ build; and a memory loop grows new lenses from your real sessions.
     /plugin marketplace add Tiltely/lens
     /plugin install lens@tiltely
 
-Then `/reload-plugins` (or restart Claude Code). Optional: enable auto-update for the
-`tiltely` marketplace to receive every push; otherwise update with
-`/plugin marketplace update tiltely` + `/plugin update lens@tiltely`.
+Then `/reload-plugins` (or restart Claude Code).
+
+### Optional: auto-update
+
+Releases are pinned to commit SHAs — every push to `main` is a new version. To
+receive them automatically on startup, enable auto-update for the `tiltely`
+marketplace in `~/.claude/settings.json`:
+
+    {
+      "extraKnownMarketplaces": {
+        "tiltely": {
+          "source": { "source": "github", "repo": "Tiltely/lens" },
+          "autoUpdate": true
+        }
+      }
+    }
+
+(The `tiltely` entry already exists after the marketplace add — just add
+`"autoUpdate": true` to it.) Without this, update manually whenever you want:
+`/plugin marketplace update tiltely` followed by `/plugin update lens@tiltely`.
 
 ## Commands
 
