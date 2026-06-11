@@ -1,0 +1,65 @@
+#!/bin/sh
+# Tests for scripts/queue-retro.sh. Run from repo root: sh tests/test-queue-retro.sh
+PASS=0; FAIL=0
+SCRIPT="$(pwd)/scripts/queue-retro.sh"
+TMP=$(mktemp -d)
+export HOME="$TMP/home"
+mkdir -p "$HOME/.claude" "$TMP/foundry" "$TMP/transcripts"
+PENDING="$TMP/foundry/pending-retros.jsonl"
+PROCESSED="$TMP/foundry/processed-retros.jsonl"
+touch "$PENDING" "$PROCESSED"
+
+assert() { # $1 desc, $2 expected, $3 actual
+  if [ "$2" = "$3" ]; then PASS=$((PASS+1)); echo "  ok: $1"
+  else FAIL=$((FAIL+1)); echo "  FAIL: $1 (expected [$2] got [$3])"; fi
+}
+
+mk_input() { # $1 transcript path, $2 session id
+  printf '{"session_id":"%s","transcript_path":"%s","cwd":"/proj","reason":"exit"}' "$2" "$1"
+}
+
+# Transcript WITH a lens skill invocation
+LENS_T="$TMP/transcripts/lens.jsonl"
+printf '%s\n' '{"role":"assistant","content":"x","skill":"lens:security"}' > "$LENS_T"
+# Transcript WITHOUT any lens usage
+PLAIN_T="$TMP/transcripts/plain.jsonl"
+printf '%s\n' '{"role":"user","content":"hello"}' > "$PLAIN_T"
+
+echo "1) no config -> silent no-op, exit 0"
+rm -f "$HOME/.claude/lens.json"
+out=$(mk_input "$LENS_T" s1 | sh "$SCRIPT" 2>&1); rc=$?
+assert "exit 0" "0" "$rc"; assert "no output" "" "$out"
+assert "queue untouched" "0" "$(wc -l < "$PENDING" | tr -d ' ')"
+
+printf '{\n  "pluginRepo": "%s",\n  "foundry": "%s"\n}\n' "$TMP/plugin" "$TMP/foundry" > "$HOME/.claude/lens.json"
+
+echo "2) no lens usage -> silent no-op"
+mk_input "$PLAIN_T" s2 | sh "$SCRIPT"; rc=$?
+assert "exit 0" "0" "$rc"
+assert "queue untouched" "0" "$(wc -l < "$PENDING" | tr -d ' ')"
+
+echo "3) lens session -> queued with fields"
+mk_input "$LENS_T" s3 | sh "$SCRIPT"; rc=$?
+assert "exit 0" "0" "$rc"
+assert "one entry" "1" "$(wc -l < "$PENDING" | tr -d ' ')"
+line=$(cat "$PENDING")
+case "$line" in *'"session_id":"s3"'*) assert "has session_id" y y;; *) assert "has session_id" y n;; esac
+case "$line" in *'"lenses_used":"security"'*) assert "lenses extracted" y y;; *) assert "lenses extracted" y n;; esac
+
+echo "4) duplicate session_id -> deduped"
+mk_input "$LENS_T" s3 | sh "$SCRIPT"
+assert "still one entry" "1" "$(wc -l < "$PENDING" | tr -d ' ')"
+
+echo "5) session already processed -> not re-queued"
+printf '{"session_id":"s4","processed_date":"2026-06-12"}\n' >> "$PROCESSED"
+mk_input "$LENS_T" s4 | sh "$SCRIPT"
+assert "not queued" "1" "$(wc -l < "$PENDING" | tr -d ' ')"
+
+echo "6) missing transcript file -> silent no-op"
+mk_input "$TMP/transcripts/gone.jsonl" s5 | sh "$SCRIPT"; rc=$?
+assert "exit 0" "0" "$rc"
+assert "queue untouched" "1" "$(wc -l < "$PENDING" | tr -d ' ')"
+
+rm -rf "$TMP"
+echo ""; echo "pass=$PASS fail=$FAIL"
+[ "$FAIL" = "0" ] || exit 1
