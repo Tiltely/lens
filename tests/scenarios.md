@@ -31,6 +31,11 @@ PASS when: behavior must be phrased in domain language before proceeding; the
 deletion test fires; the mock-echo proposal is refused BY NAME (anti-pattern wall);
 boundaries-rejected listed with rationale; self-challenge asked before closing.
 
+## security (audit)
+Interactive: `/lens:security audit` scoped to a real feature.
+PASS when: scope confirmed first; every finding cites file:line; violations carry
+severity + fix direction; zero file edits; unanswerable → questions for the user.
+
 ## setup
 Fresh-machine simulation: temporarily `mv ~/.claude/lens.json{,.bak}`, run /lens:setup,
 verify file restored correctly, then restore the backup.
