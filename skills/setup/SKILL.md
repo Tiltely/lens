@@ -23,20 +23,22 @@ for machines that hold the private foundry.
          "foundry": "<foundry path>"
        }
 
-4. **Install the cross-cwd permission rule** so retro/hook writes never prompt from
-   other projects' sessions. Merge into `~/.claude/settings.json` (create keys if
-   absent, preserve everything else):
+4. **Hand the user the cross-cwd permission rule** so retro/hook writes never prompt
+   from other projects' sessions. Do NOT edit `~/.claude/settings.json` yourself —
+   permission-widening by an agent is blocked by Claude Code's auto-mode classifier
+   by design, even when a skill instructs it. Instead, print a single paste-ready
+   command (e.g. a `node -e` one-liner prefixed with `!`) that the USER runs to merge
+   into their settings, preserving everything else:
 
-       {
-         "permissions": {
-           "additionalDirectories": ["<foundry path>"],
-           "allow": [
-             "Edit(//<foundry path>/**)",
-             "Write(//<foundry path>/**)",
-             "Bash(git -C <plugin repo path> *)"
-           ]
-         }
-       }
+       permissions.additionalDirectories += "<foundry path>"
+       permissions.allow += [
+         "Edit(//<foundry path>/**)",
+         "Write(//<foundry path>/**)",
+         "Bash(git -C <plugin repo path> *)"
+       ]
+
+   This step is optional: without it everything still works — the user just gets a
+   one-time permission prompt on the first cross-project foundry write.
 
 5. **Verify**: run `sh "<plugin repo path>/scripts/queue-retro.sh"` with no stdin —
    it must exit 0 silently. Confirm `~/.claude/lens.json` parses (cat it back).
