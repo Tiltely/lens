@@ -1,0 +1,12 @@
+{
+  "name": "tiltely",
+  "owner": { "name": "Tiltely", "email": "leo@tiltely.com" },
+  "description": "Tiltely's Claude Code plugins.",
+  "plugins": [
+    {
+      "name": "lens",
+      "source": "./",
+      "description": "Socratic lenses: question batteries + orchestrator + self-growing memory loop."
+    }
+  ]
+}
