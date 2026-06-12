@@ -46,7 +46,9 @@ marketplace in `~/.claude/settings.json`:
 | `/lens:setup` | Dev-machine setup for the private memory loop (optional) |
 
 The memory loop (retro/foundry) is optional and lives OUTSIDE the plugin — your
-session observations stay in your own private repo.
+session observations stay in your own private repo. On a machine without that
+config, everything except `/lens:retro` and `/lens:new` works out of the box with
+zero setup; the session-end hook silently does nothing.
 
 ## How it works
 
