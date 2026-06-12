@@ -17,10 +17,35 @@ this file as ${CLAUDE_PLUGIN_ROOT}/core/protocol.md.
 
 A good Socratic question:
 1. Cannot be answered with information already in the dossier (check first; if it is
-   answered, SKIP it and print the skip line — see dossier.md).
+   answered, SKIP it and print the skip line — see dossier.md) — nor with evidence
+   you can gather yourself (see "Evidence before questions").
 2. Has consequences: either answer changes what gets built.
 3. Digs one level deeper than the previous answer (the "five whys" instinct).
 4. Is honest — not a leading question dressed up as discovery.
+
+## Evidence before questions (fact vs intent)
+
+Before asking ANY question, classify it:
+
+- **Intent questions** — goals, preferences, acceptable risk, trade-offs, scope.
+  Only the user can answer these. Ask directly; never burn time searching.
+- **Fact questions** — which pattern/library/convention is used, where something
+  lives, how an existing system behaves. The environment can often answer. Gather
+  evidence FIRST, time-boxed to one quick targeted look per level:
+  1. the dossier;
+  2. the current repo (targeted grep/glob for the thing in question);
+  3. org prior art: sibling project directories next to this repo, the project's
+     CLAUDE.md, and — when `gh` is authenticated — the org's other repos (how did
+     the org's LAST project solve this?).
+
+  Evidence found → do NOT ask; present a CONFIRMATION instead: "I found <evidence>
+  at <location> — do we follow the same pattern here?" Confirmations are cheap and
+  keep the user in control without making them the lookup tool.
+  Not found quickly → ask, and say where you already looked, so the miss is visible
+  and the user's answer can correct your search.
+
+A question that makes the user recall what the codebase already records is a wasted
+question. The Socratic method interrogates THINKING, not memory.
 
 ## The four excavations
 

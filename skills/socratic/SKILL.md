@@ -17,7 +17,9 @@ reviewing something already built → audit (confirm your inference in one line)
 
 1. **Dossier**: create/reset `.lens-dossier.md` per dossier.md (goal + date header;
    git exclusion). Run stack detection (core/stack-detection.md); record `stack:`.
-2. **Socratic rounds** (protocol.md rules — ONE question at a time):
+2. **Socratic rounds** (protocol.md rules — ONE question at a time; classify each
+   as fact vs intent first: fact questions get the evidence pass — current repo,
+   sibling/org repos, CLAUDE.md — and arrive as confirmations when evidence exists):
    - Round A — the goal: what does success look like? for whom? what is explicitly
      out of scope?
    - Round B — caveats: what must be true for this to work? what constraints bound it?
