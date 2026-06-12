@@ -10,6 +10,14 @@ caveats/rabbit-holes/blast-radius explicitly named; lens plan presented and prun
 chained lenses print skip lines for dossier-answered questions; synthesis lists
 decisions/risks/open/actions; retro reminder appears.
 
+## socratic (audit mode)
+Interactive: `/lens:socratic audit` in a project with a dossier from a prior design
+session whose implementation has landed.
+PASS when: dossier recognized as the contract (no re-scoping questions the dossier
+answers); audit plan = design-time lens plan, audit-capable lenses only, skipped
+ones named; contract check covers every recorded decision (file:line or drift flag),
+open question, and accepted risk; zero file edits; retro reminder at close.
+
 ## security (design)
 Headless smoke: `claude --plugin-dir /Users/leonardo/Tiltely/lens -p "Invoke the lens:security skill in design mode for a hypothetical Next.js SPA login feature. Ask me only the first question, then stop."`
 PASS when: exactly one Tier 1 question, framed per battery.

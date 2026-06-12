@@ -36,7 +36,7 @@ marketplace in `~/.claude/settings.json`:
 
 | Command | What it does |
 |---|---|
-| `/lens:socratic "<goal>"` | Socratic discovery → caveats, rabbit holes, blast radius → chains the right lenses |
+| `/lens:socratic "<goal>"` | Socratic discovery → caveats, rabbit holes, blast radius → chains the right lenses. `audit` re-runs the session's lens plan against the built code and verifies every recorded decision |
 | `/lens:security` | Sessions, tokens, authz — design dialogue or code audit with file:line findings |
 | `/lens:design` | Interface design, library-agnostic: ranked component candidates in YOUR design system, deep platform questions (PWA pack), and a professional critique of implemented UI (keep/refine/rework) |
 | `/lens:usability` | End-user flows, missing states, navigation, i18n |

@@ -5,7 +5,7 @@ All skills in this plugin. `/lens:socratic` plans from rows tagged `lens`.
 
 | skill | type | modes | purpose | trigger signals |
 |---|---|---|---|---|
-| socratic | utility | — | Discovery orchestrator: rounds → caveats/rabbit-holes/blast-radius → lens plan → chained lenses | starting any non-trivial feature or issue |
+| socratic | utility | design, audit | Discovery orchestrator: rounds → the four excavations → lens plan → chained lenses. Audit: re-runs the session's lens plan against the built code + contract check vs dossier decisions | starting any non-trivial feature or issue; auditing what got built afterwards |
 | security | lens | design, audit | Sessions, auth, tokens, secrets, authorization layers | login, tokens, payments, user data, webhooks, anything an attacker would love |
 | design | lens | design, audit | Interface design, library-agnostic: ranked component candidates in the project's design system, layout, navigation, states, platform matrix; audit = professional critique of implemented UI (keep/refine/rework) | new screens/components, redesigns, "where should X go", "is this the best UI for this?" |
 | usability | lens | design | End-user flows, navigation, missing states, i18n | new user-facing pages, flows users complained about |

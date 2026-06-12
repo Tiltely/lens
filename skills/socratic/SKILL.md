@@ -1,19 +1,19 @@
 ---
 name: socratic
-description: Use when starting any non-trivial feature, issue, or objective — BEFORE designing or coding. Runs iterative Socratic discovery (caveats, rabbit holes, blast radius), then plans and chains the right lenses. Trigger phrases - "let's build", "add feature", "I want to implement", "how should we approach".
+description: Use when starting any non-trivial feature, issue, or objective — BEFORE designing or coding — and again AFTER implementing, to audit it. Design mode runs iterative Socratic discovery (caveats, rabbit holes, blast radius), then plans and chains the right lenses. Audit mode re-runs the session's lens plan against the implemented code and verifies it against the dossier's recorded decisions. Trigger phrases - "let's build", "add feature", "how should we approach", "audit what we built", "review the implementation".
 ---
 
 # Socratic Discovery Orchestrator
 
 Read first:
-- ${CLAUDE_PLUGIN_ROOT}/core/protocol.md  (how to ask; the three excavations)
+- ${CLAUDE_PLUGIN_ROOT}/core/protocol.md  (how to ask; the four excavations)
 - ${CLAUDE_PLUGIN_ROOT}/core/dossier.md   (dossier lifecycle — you own creation/reset)
 - ${CLAUDE_PLUGIN_ROOT}/core/registry.md  (available lenses for the plan)
 
-v1 is DESIGN MODE ONLY: audits run as individual lens invocations, not through this
-orchestrator.
+Mode: explicit argument wins ("audit"). Otherwise: starting new work → design;
+reviewing something already built → audit (confirm your inference in one line).
 
-## Flow
+## Flow — design mode
 
 1. **Dossier**: create/reset `.lens-dossier.md` per dossier.md (goal + date header;
    git exclusion). Run stack detection (core/stack-detection.md); record `stack:`.
@@ -30,7 +30,33 @@ orchestrator.
    Let the user prune or reorder.
 4. **Execute the chain in this session**: invoke each planned lens skill in order.
    Each lens reads the dossier and skips answered questions (printing skip lines).
-5. **Synthesis**: decisions made; open risks; the three excavations as a compact map;
+5. **Synthesis**: decisions made; open risks; the four excavations as a compact map;
    concrete action list. Write the final dossier state.
-6. **Close**: remind the user — after the implementation lands, run /lens:retro
-   (the SessionEnd hook has already queued this session if any lens ran).
+6. **Close**: remind the user — after the implementation lands, run
+   `/lens:socratic audit` to verify it against this dossier, and /lens:retro after
+   that (the SessionEnd hook has already queued this session if any lens ran).
+
+## Flow — audit mode (`/lens:socratic audit`)
+
+Closes the loop the design session opened. The dossier is the contract; the audit
+verifies the implementation against it. Never edit code; produce a report.
+
+1. **Read the dossier.** Valid one (goal matches what was built, has a lens plan and
+   decisions) → it defines the audit: scope = its goal + blast-radius map; lens set =
+   the design-time lens plan. No valid dossier → confirm scope with the user and
+   build an audit plan from registry trigger signals instead.
+2. **Confirm the audit plan** with the user: which lenses run (only those whose
+   registry row includes `audit` mode — name the planned lenses that lack audit mode
+   and skip them explicitly), over which paths. Prunable, like the design plan.
+3. **Run each lens's audit battery serially in this session** (each lens's SKILL.md
+   defines its audit procedure). Single-writer rule: only you write the dossier.
+4. **Contract check** — the part individual lens audits cannot do:
+   - every `decision` recorded in the dossier → implemented as decided? Cite
+     `file:line`, or flag the drift and ask whether it was intentional.
+   - every `open` question → now answerable from the code? Answer it with evidence
+     or escalate it back to the user.
+   - every accepted `risk` → did it materialize? Is any mitigation present?
+5. **Synthesis**: merged lens findings ordered by severity + the contract-check table
+   (decision → honored / drifted / intentionally changed) + updated dossier.
+6. **Close**: remind the user to run /lens:retro — an audit session is prime retro
+   material (the hook has already queued it).
