@@ -14,10 +14,20 @@ decisions/risks/open/actions; retro reminder appears.
 Headless smoke: `claude --plugin-dir /Users/leonardo/Tiltely/lens -p "Invoke the lens:security skill in design mode for a hypothetical Next.js SPA login feature. Ask me only the first question, then stop."`
 PASS when: exactly one Tier 1 question, framed per battery.
 
-## shadcn-design (design)
+## design (design mode)
 Interactive on a real screen task.
-PASS when: 2–3 ranked candidates with visible ranking; self-challenge question asked
-before closing.
+PASS when: design system detected and recorded first (works with shadcn, MUI, or
+none); 2–3 ranked candidates phrased in the project's component vocabulary; PWA
+answer triggers the topics/pwa.md depth pack (platform-specific install/storage/
+update questions, not just "does it work offline"); self-challenge asked before
+closing.
+
+## design (audit mode)
+Interactive: `/lens:design audit` scoped to an implemented screen.
+PASS when: scope confirmed; critiques the rendered UI (screenshots when the app
+runs locally) not just code; every key interaction gets ranked alternatives;
+verdicts are keep/refine/rework with visible evidence — at least one "keep" verdict
+should survive on a well-built screen (no invented change); zero file edits.
 
 ## usability (design)
 Interactive on a real page task.

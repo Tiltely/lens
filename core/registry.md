@@ -7,7 +7,7 @@ All skills in this plugin. `/lens:socratic` plans from rows tagged `lens`.
 |---|---|---|---|---|
 | socratic | utility | — | Discovery orchestrator: rounds → caveats/rabbit-holes/blast-radius → lens plan → chained lenses | starting any non-trivial feature or issue |
 | security | lens | design, audit | Sessions, auth, tokens, secrets, authorization layers | login, tokens, payments, user data, webhooks, anything an attacker would love |
-| shadcn-design | lens | design | UI composition with Tailwind/shadcn: component candidates ranked, layout, PWA | new screens/components, redesigns, "where should X go" |
+| design | lens | design, audit | Interface design, library-agnostic: ranked component candidates in the project's design system, layout, navigation, states, platform matrix; audit = professional critique of implemented UI (keep/refine/rework) | new screens/components, redesigns, "where should X go", "is this the best UI for this?" |
 | usability | lens | design | End-user flows, navigation, missing states, i18n | new user-facing pages, flows users complained about |
 | tdd | lens | design | Test quality and judgment: tests that earn their existence, no testing-for-testing's-sake | writing or planning tests, bugfixes needing regression tests, reviewing a test plan |
 | retro | utility | — | Memory loop: mine queued sessions, propose lenses/updates/CLAUDE.md diffs, write ledger | closing significant work; weekly |

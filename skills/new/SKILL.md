@@ -13,7 +13,9 @@ Requires `pluginRepo` in `~/.claude/lens.json`. If absent: write the drafted len
 1. **Preconditions** (in `<pluginRepo>`): checkout on the default branch, clean tree.
    If not, stop and tell the user exactly what is off.
 2. **Name check**: kebab-case; dir `skills/<name>/` must not exist; name must not
-   collide with a registry row.
+   collide with a registry row. Enforce lens agnosticism (core/protocol.md): reject
+   names coupled to a library or framework unless the lens's SUBJECT is that
+   technology — "design", not "shadcn-design"; "data-privacy", not "prisma-privacy".
 3. **Draft the battery socratically** — interview the user briefly (protocol.md
    rules, one question at a time): what does this lens examine? what are its 2
    framing questions? which contexts condition Tier 2? Target 8–12 questions total.

@@ -30,7 +30,7 @@ and writes once.
 
     ## answered      ← question + answer, one bullet each, appended by every lens/round
     ## decisions     ← decisions made, with one-line rationale
-    ## caveats / rabbit-holes / blast-radius  ← the three excavations (protocol.md)
+    ## caveats / rabbit-holes / blast-radius / platform-matrix  ← the four excavations (protocol.md)
     ## open          ← unresolved questions + who/what resolves them
 
 ## Skip lines (mandatory)
