@@ -5,10 +5,19 @@ description: Scaffold a new lens for this plugin. Use when /lens:retro proposed 
 
 # New Lens Scaffolder
 
-Requires `pluginRepo` in `~/.claude/lens.json`. If absent: write the drafted lens to
-`./lens-proposal-<name>.md` in the cwd with a note on how to add it later, and stop.
+Routing, by what `~/.claude/lens.json` contains:
 
-## Steps
+- **`pluginRepo` set (maintainer):** scaffold INTO the plugin repo — full steps below.
+- **only `foundry` set (everyone else):** scaffold a PERSONAL lens — draft the
+  battery (step 3 below), then write it to `~/.claude/skills/lens-<name>/SKILL.md`
+  from the same template, replacing every placeholder, and append the registry row
+  to `<foundry>/registry.md` instead of the plugin's registry. No git, no plugin
+  rebuild — it loads next session. Close by mentioning that a personal lens that
+  earns its keep can be PR'd to the public plugin repo.
+- **no config:** write the drafted lens to `./lens-proposal-<name>.md` in the cwd
+  with a note on how to add it later, and point the user at /lens:setup.
+
+## Steps (maintainer path)
 
 1. **Preconditions** (in `<pluginRepo>`): checkout on the default branch, clean tree.
    If not, stop and tell the user exactly what is off.

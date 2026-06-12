@@ -25,9 +25,12 @@ reviewing something already built → audit (confirm your inference in one line)
    - Round D — blast radius: which systems/repos/platforms/people does this touch?
      (API, web, mobile, DB, infra, third parties, docs, team.)
    Append everything to the dossier as you go. Stop lines per protocol.md.
-3. **Lens plan**: from registry.md `lens` rows, pick the lenses whose trigger signals
-   match what the rounds surfaced. Present an ordered plan: lens → one-line reason.
-   Let the user prune or reorder.
+3. **Lens plan**: from the `lens` rows of core/registry.md — MERGED with the user's
+   personal registry (`<foundry>/registry.md`, when `~/.claude/lens.json` exists) —
+   pick the lenses whose trigger signals match what the rounds surfaced. Personal
+   lenses are invoked by their skill name (`lens-<name>`); mark them "(personal)" in
+   the plan. Present an ordered plan: lens → one-line reason. Let the user prune or
+   reorder.
 4. **Execute the chain in this session**: invoke each planned lens skill in order.
    Each lens reads the dossier and skips answered questions (printing skip lines).
 5. **Synthesis**: decisions made; open risks; the four excavations as a compact map;

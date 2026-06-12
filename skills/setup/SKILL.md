@@ -1,26 +1,34 @@
 ---
 name: setup
-description: One-time dev-machine setup for the lens plugin's memory loop. Use when the user runs /lens:setup, or when a foundry-dependent skill (retro, new) finds ~/.claude/lens.json missing and the user wants to fix that.
+description: One-time per-machine setup of YOUR lens memory loop - a personal foundry where the session hook queues lens sessions, /lens:retro mines them, and /lens:new grows your personal lens collection. Use when the user runs /lens:setup, or when a foundry-dependent skill (retro, new) finds ~/.claude/lens.json missing and the user wants to fix that.
 ---
 
-# Lens Setup (dev machines only)
+# Lens Setup (any machine)
 
-Configures the machine so the memory loop (hook → queue → retro → ledger) works.
-Machines without this config still get all lenses and /lens:socratic — setup is only
-for machines that hold the private foundry.
+Every user runs their OWN foundry. The lenses bundled with this plugin are the
+curated set published from the maintainers' foundry — yours grows the lenses that
+fit YOUR work. Machines without setup still get all bundled lenses and
+/lens:socratic; setup only enables the memory loop.
 
 ## Steps
 
-1. **Locate the plugin repo.** Check `/Users/leonardo/Tiltely/lens`, else ask the
-   user, else offer: `git clone git@github.com:Tiltely/lens.git`.
-2. **Locate the foundry.** Check `/Users/leonardo/Tiltely/claude/foundry`, else ask.
-   If the directory does not exist inside an existing `Tiltely/claude` clone, create
-   it with empty `observations.md`, `pending-retros.jsonl`, `processed-retros.jsonl`.
-3. **Write `~/.claude/lens.json`** (show the user before writing):
+1. **Choose the foundry location.**
+   - Default: `~/.claude/lens-foundry/` — a plain directory, no git required.
+   - Power option: a directory inside a private git repo of the user's, if they
+     want the ledger versioned and synced across machines.
+   Create it with empty `pending-retros.jsonl` and `processed-retros.jsonl`, an
+   `observations.md` with a one-line header ("Cross-project learnings mined by
+   /lens:retro; append-only"), and a `registry.md` — the PERSONAL lens registry:
+   same table columns as `${CLAUDE_PLUGIN_ROOT}/core/registry.md`, starting empty.
+2. **(Maintainers only) plugin repo.** If the user has a writable clone of a lens
+   plugin repo and wants /lens:new to commit lenses INTO the plugin, note its path.
+   Everyone else skips this — personal lenses go to `~/.claude/skills/` instead.
+3. **Write `~/.claude/lens.json`** (show the user before writing; `pluginRepo`
+   only if step 2 applied):
 
        {
-         "pluginRepo": "<plugin repo path>",
-         "foundry": "<foundry path>"
+         "foundry": "<foundry path>",
+         "pluginRepo": "<plugin repo path — optional, maintainers only>"
        }
 
 4. **Hand the user the cross-cwd permission rule** so retro/hook writes never prompt
@@ -33,14 +41,13 @@ for machines that hold the private foundry.
        permissions.additionalDirectories += "<foundry path>"
        permissions.allow += [
          "Edit(//<foundry path>/**)",
-         "Write(//<foundry path>/**)",
-         "Bash(git -C <plugin repo path> *)"
+         "Write(//<foundry path>/**)"
        ]
 
-   This step is optional: without it everything still works — the user just gets a
-   one-time permission prompt on the first cross-project foundry write.
-
-5. **Verify**: run `sh "<plugin repo path>/scripts/queue-retro.sh"` with no stdin —
-   it must exit 0 silently. Confirm `~/.claude/lens.json` parses (cat it back).
+   (Maintainers also add: `"Bash(git -C <plugin repo path> *)"`.) This step is
+   optional: without it everything still works — the user just gets a one-time
+   permission prompt on the first cross-project foundry write.
+5. **Verify**: run the plugin's `scripts/queue-retro.sh` with no stdin — it must
+   exit 0 silently. Confirm `~/.claude/lens.json` parses (cat it back).
 6. Tell the user: config written; the SessionEnd hook will now queue lens-using
-   sessions; run /lens:retro to process them.
+   sessions; run /lens:retro to process them, and /lens:new to grow personal lenses.

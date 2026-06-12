@@ -43,12 +43,21 @@ marketplace in `~/.claude/settings.json`:
 | `/lens:tdd` | Tests that earn their existence — kills mock-echo, implementation mirrors, and testing-for-testing's-sake |
 | `/lens:retro` | Mine your queued sessions; propose new lenses and CLAUDE.md updates |
 | `/lens:new` | Scaffold a proposed lens into the plugin |
-| `/lens:setup` | Dev-machine setup for the private memory loop (optional) |
+| `/lens:setup` | Create YOUR personal memory loop, once per machine (optional) |
 
-The memory loop (retro/foundry) is optional and lives OUTSIDE the plugin — your
-session observations stay in your own private repo. On a machine without that
-config, everything except `/lens:retro` and `/lens:new` works out of the box with
-zero setup; the session-end hook silently does nothing.
+## Your own memory loop
+
+Every user runs their OWN foundry — a private folder (default
+`~/.claude/lens-foundry/`, no git required) where the session-end hook queues your
+lens sessions, `/lens:retro` mines them, and `/lens:new` grows lenses that fit YOUR
+work. Personal lenses scaffold into `~/.claude/skills/` and load next session — no
+fork, no plugin rebuild — and `/lens:socratic` plans with them alongside the bundled
+set. Run `/lens:setup` once per machine to enable it.
+
+The lenses bundled with this plugin are the curated set published from the
+maintainers' foundry. If one of your personal lenses earns its keep, PRs are
+welcome. Without setup, all lenses and the orchestrator work out of the box; the
+session-end hook silently does nothing.
 
 ## How it works
 

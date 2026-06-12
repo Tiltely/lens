@@ -33,9 +33,11 @@ If the transcript file no longer exists: mark processed, note "transcript gone",
 After individual passes, look across entries for repetition. A pattern seen ≥2 times
 is a proposal candidate:
 - **New lens** → name it, one-line purpose, 3 sample questions → on approval, hand to
-  /lens:new.
-- **Lens update** → concrete diff to the lens SKILL.md (requires `pluginRepo` in
-  config; if absent, emit the diff as a local file with instructions).
+  /lens:new (which routes to the plugin repo for maintainers, or to a personal lens
+  in ~/.claude/skills for everyone else).
+- **Lens update** → for a PERSONAL lens (~/.claude/skills/lens-*): concrete diff,
+  apply on approval. For a bundled lens: requires `pluginRepo` in config; if absent,
+  emit the diff as a local file and suggest a PR to the public plugin repo.
 - **CLAUDE.md update** → concrete diff, addressed to the specific project's CLAUDE.md.
 
 ## The approval gate

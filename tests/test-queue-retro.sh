@@ -60,6 +60,15 @@ mk_input "$TMP/transcripts/gone.jsonl" s5 | sh "$SCRIPT"; rc=$?
 assert "exit 0" "0" "$rc"
 assert "queue untouched" "1" "$(wc -l < "$PENDING" | tr -d ' ')"
 
+echo "7) personal lens (lens-<name> skill in ~/.claude/skills) -> queued too"
+PERSONAL_T="$TMP/transcripts/personal.jsonl"
+printf '%s\n' '{"role":"assistant","content":"x","skill":"lens-parity"}' > "$PERSONAL_T"
+mk_input "$PERSONAL_T" s6 | sh "$SCRIPT"; rc=$?
+assert "exit 0" "0" "$rc"
+assert "two entries" "2" "$(wc -l < "$PENDING" | tr -d ' ')"
+last=$(tail -1 "$PENDING")
+case "$last" in *'"lenses_used":"parity"'*) assert "personal lens extracted" y y;; *) assert "personal lens extracted" y n;; esac
+
 rm -rf "$TMP"
 echo ""; echo "pass=$PASS fail=$FAIL"
 [ "$FAIL" = "0" ] || exit 1

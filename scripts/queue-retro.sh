@@ -10,9 +10,10 @@ cwd=$(printf '%s' "$INPUT" | sed -n 's/.*"cwd"[[:space:]]*:[[:space:]]*"\([^"]*\
 
 [ -n "$transcript" ] && [ -f "$transcript" ] || exit 0
 
-# Only queue sessions that actually used a lens skill.
-lenses=$(grep -o '"skill":"lens:[^"]*"' "$transcript" 2>/dev/null \
-  | sed 's/.*"lens:\([^"]*\)"/\1/' | sort -u | paste -sd, -)
+# Only queue sessions that actually used a lens skill — plugin lenses
+# ("lens:security") or personal ones from ~/.claude/skills ("lens-parity").
+lenses=$(grep -o '"skill":"lens[:-][^"]*"' "$transcript" 2>/dev/null \
+  | sed 's/.*"lens[:-]\([^"]*\)"/\1/' | sort -u | paste -sd, -)
 [ -n "$lenses" ] || exit 0
 
 CONFIG="$HOME/.claude/lens.json"

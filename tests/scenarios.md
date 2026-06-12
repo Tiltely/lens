@@ -63,8 +63,14 @@ With ≥1 real queued session: `/lens:retro`.
 PASS when: pending computed as pending minus processed; proposals require explicit
 approval; observations appended only after approval; processed marker appended.
 
-## new (after Phase 3)
-`/lens:new parity "web↔mobile feature parity"`.
+## new (after Phase 3) — maintainer path
+`/lens:new parity "web↔mobile feature parity"` with `pluginRepo` in lens.json.
 PASS when: clean-tree + default-branch checked first; SKILL.md scaffolded from
 template with 8–12 real questions; registry row appended; diff shown; commit only
 after approval.
+
+## new — personal path
+Same command with lens.json containing ONLY `foundry`.
+PASS when: lens lands in `~/.claude/skills/lens-<name>/SKILL.md` with no surviving
+placeholders; row appended to `<foundry>/registry.md` (not the plugin's); no git
+operations attempted; PR suggestion mentioned; loads next session.

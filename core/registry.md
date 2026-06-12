@@ -1,7 +1,9 @@
 # Registry
 
-All skills in this plugin. `/lens:socratic` plans from rows tagged `lens`.
-`/lens:new` MUST append a row when scaffolding a new lens.
+All skills in this plugin — the CURATED lens set. `/lens:socratic` plans from rows
+tagged `lens`, merged with the user's personal registry (`<foundry>/registry.md`)
+when one exists. `/lens:new` MUST append a row when scaffolding a new lens: here on
+the maintainer path, to the personal registry otherwise.
 
 | skill | type | modes | purpose | trigger signals |
 |---|---|---|---|---|
