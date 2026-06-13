@@ -115,8 +115,15 @@ picks the foundry location — `~/.claude/lens-foundry/` on Claude Code, or a re
 granted folder (e.g. `/Users/<you>/lens-foundry/`) on Cowork, whose VM home is
 ephemeral. The hook finds the config in order: `$LENS_CONFIG` → `~/.claude/lens.json`
 → `~/lens/lens.json`. The foundry holds personal session data — **keep it out of git**
-(gitignore it if it must live in a repo). The loop stays global — project lenses are
-mined into your one foundry like any other session. Without setup, all lenses and
+(gitignore it if it must live in a repo).
+
+**A foundry per environment is by design.** Claude Code and Claude Cowork each keep
+their OWN foundry (and so their own grown lenses), because the two are different work
+environments: a lens that earns its keep in engineering (e.g. `tdd`) may be irrelevant
+in knowledge work, and vice versa. This is environment-scoping, not fragmentation —
+it's two coarse buckets, each with a concentrated retro loop, not a foundry per
+project. Within an environment the loop stays single — project lenses are mined into
+that environment's one foundry like any other session. Without setup, all lenses and
 `/lens:socratic` still work; only the hook
 silently does nothing.
 
