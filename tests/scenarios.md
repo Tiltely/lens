@@ -44,6 +44,16 @@ answers); audit plan = design-time lens plan, audit-capable lenses only, skipped
 ones named; contract check covers every recorded decision (file:line or drift flag),
 open question, and accepted risk; zero file edits; retro reminder at close.
 
+## socratic (project-scoped lenses)
+Setup: in a git repo, create `.lens/registry.md` with one `lens` row (e.g. `compliance`)
+and `.lens/lenses/compliance/SKILL.md` with a short battery. Run `/lens:socratic` on a
+task in that repo whose trigger matches.
+PASS when: the plan lists the project lens marked "(project)"; it is read INLINE (not
+invoked as a slash command); a project lens whose NAME duplicates a bundled one
+overrides the bundled battery for that repo (nearest-wins); a repo WITHOUT `.lens/`
+behaves exactly as before. The foundry/hook/retro are unchanged — the session still
+queues because it ran lens:socratic.
+
 ## security (design)
 Headless smoke: `claude --plugin-dir /Users/leonardo/Tiltely/lens -p "Invoke the lens:security skill in design mode for a hypothetical Next.js SPA login feature. Ask me only the first question, then stop."`
 PASS when: exactly one Tier 1 question, framed per battery.

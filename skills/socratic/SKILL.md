@@ -34,14 +34,23 @@ reviewing something already built → audit (confirm your inference in one line)
    synthesis (showing the mind-map) once only LOW/deferred branches remain or answers
    stop spawning branches. The user can say "enough, synthesize" at any step — honor
    it. Append everything to the dossier as you go.
-3. **Lens plan** (build it once the frontier is empty or deferred): from the `lens`
-   rows of core/registry.md — MERGED with the user's
-   personal registry (`<foundry>/registry.md`, when `~/.claude/lens.json` exists) —
-   pick the lenses whose trigger signals match what the rounds surfaced. Personal
-   lenses are invoked by their skill name (`lens-<name>`); mark them "(personal)" in
-   the plan. Present an ordered plan: lens → one-line reason. Let the user prune or
-   reorder.
-4. **Execute the chain in this session**: invoke each planned lens skill in order.
+3. **Lens plan** (build it once the frontier is empty or deferred). Union the `lens`
+   rows from three sources, **nearest-wins on lens name** (project > personal >
+   bundled — a nearer definition overrides a farther one, like a nearer CLAUDE.md):
+   - bundled `core/registry.md`;
+   - personal `<foundry>/registry.md` (when a lens config exists, v1);
+   - **project** `<repo>/.lens/registry.md` — if the cwd is in a git repo (find the
+     root with `git rev-parse --show-toplevel`) and that file exists.
+   A lens is the (registry row + its `SKILL.md`); nearest-wins selects BOTH from the
+   level that defines the name. Pick the lenses whose trigger signals match what the
+   rounds surfaced; mark personal "(personal)" and project "(project)" in the plan.
+   Present an ordered plan: lens → one-line reason. Let the user prune or reorder.
+4. **Execute the chain in this session**, dispatching per lens:
+   - resolves to a LOADED skill (bundled `/lens:x`, or a personal `lens-x` in
+     `~/.claude/skills/`) → invoke it;
+   - a PROJECT lens (`<repo>/.lens/lenses/<name>/SKILL.md`, no loadable skill) → READ
+     its SKILL.md inline and run its battery here (same as how this orchestrator reads
+     core/*.md). Single-writer rule still holds: you write the dossier.
    Each lens reads the dossier and skips answered questions (printing skip lines).
 5. **Synthesis**: render the final mind-map (the frontier tree — every node resolved
    or deferred); decisions made; open risks; the four excavations as a compact map;

@@ -101,6 +101,17 @@ maintainers' foundry. If one of your personal lenses earns its keep, PRs are
 welcome. Without setup, all lenses and the orchestrator work out of the box; the
 session-end hook silently does nothing.
 
+### Project-scoped lenses
+
+A repo can carry its own lenses. `/lens:new` (project scope) writes them to
+`<repo>/.lens/lenses/<name>/SKILL.md` and `/lens:socratic` discovers them from the
+repo root, merging into the plan **nearest-wins** (a project lens named `design`
+overrides the bundled one for that repo) — the same way a nearer CLAUDE.md layers
+over a farther one. `.lens/` is git-excluded by default; to share a lens with your
+team, commit its `SKILL.md` to `<repo>/.claude/skills/lens-<name>/` instead (Claude
+Code loads it natively). The memory loop stays global — project lenses are mined into
+your one foundry like any other session.
+
 ## How it works
 
 Lenses are three-tier question batteries (framing → stack-conditional → deep dives)

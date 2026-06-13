@@ -5,18 +5,25 @@ description: Scaffold a new lens for this plugin. Use when /lens:retro proposed 
 
 # New Lens Scaffolder
 
-Routing, by what the lens config contains (discover it first-readable-wins:
-`$LENS_CONFIG` → `~/.claude/lens.json` → `~/lens/lens.json`):
+First ask the user which SCOPE the new lens should have (offer the ones that apply):
 
-- **`pluginRepo` set (maintainer):** scaffold INTO the plugin repo — full steps below.
-- **only `foundry` set (everyone else):** scaffold a PERSONAL lens — draft the
-  battery (step 3 below), then write it to `~/.claude/skills/lens-<name>/SKILL.md`
-  from the same template, replacing every placeholder, and append the registry row
-  to `<foundry>/registry.md` instead of the plugin's registry. No git, no plugin
-  rebuild — it loads next session. Close by mentioning that a personal lens that
-  earns its keep can be PR'd to the public plugin repo.
-- **no config:** write the drafted lens to `./lens-proposal-<name>.md` in the cwd
-  with a note on how to add it later, and point the user at /lens:setup.
+- **Project** — applies only in THIS repo. Available whenever cwd is inside a git
+  repo. Draft the battery (step 3 below), then write it to
+  `<repo>/.lens/lenses/<name>/SKILL.md` from the template (no surviving placeholders),
+  append the row to `<repo>/.lens/registry.md` (create it if absent), and exclude
+  `.lens/` from git: append to the repo's exclude file resolved via
+  `git rev-parse --git-path info/exclude` (handles worktrees/submodules); if that
+  fails, PROPOSE a `.gitignore` entry — never silently edit `.gitignore`. No commit,
+  no plugin rebuild — `/lens:socratic` reads it inline next run. To share it with the
+  team instead, commit its SKILL.md to `<repo>/.claude/skills/lens-<name>/`.
+- **Personal** (global) — `foundry` in the lens config (discover first-readable-wins:
+  `$LENS_CONFIG` → `~/.claude/lens.json` → `~/lens/lens.json`). Draft the battery,
+  write it to `~/.claude/skills/lens-<name>/SKILL.md` from the template, append the
+  row to `<foundry>/registry.md`. No git, no rebuild — loads next session. A personal
+  lens that earns its keep can be PR'd to the public plugin repo.
+- **Into the plugin (maintainer)** — `pluginRepo` set in the config: full steps below.
+- **No config and not in a repo:** write the drafted lens to `./lens-proposal-<name>.md`
+  in the cwd with a note on how to add it later, and point the user at /lens:setup.
 
 ## Steps (maintainer path)
 
