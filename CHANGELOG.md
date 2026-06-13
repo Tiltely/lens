@@ -5,6 +5,16 @@ the `version` field in `.claude-plugin/plugin.json` is the source of truth and i
 bumped on every meaningful change (it's the cache key Claude Code and Cowork use to
 detect updates). This file is informational and does not affect update detection.
 
+## [0.4.2] — 2026-06-13
+
+### Changed
+- `/lens:setup` no longer asks "do you maintain a lens plugin?" — that question was
+  noise for the vast majority of users. Setup now writes only `{ "foundry": ... }`.
+- The maintainer path in `/lens:new` (scaffold into the bundled set) is now
+  **auto-detected** — it appears only when the cwd is inside the lens plugin repo
+  (repo root has `.claude-plugin/plugin.json` with `name: lens`), never via a config
+  field or a setup prompt. `pluginRepo` config is no longer used.
+
 ## [0.4.1] — 2026-06-13
 
 ### Fixed

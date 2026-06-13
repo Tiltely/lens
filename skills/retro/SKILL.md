@@ -38,9 +38,9 @@ is a proposal candidate:
   /lens:new (which writes it to your global foundry, a project `.lens/`, or — for
   maintainers — the bundled set).
 - **Lens update** → for a lens you created (in `<foundry>/lenses/` or a project
-  `.lens/`): concrete diff, apply on approval. For a bundled lens: requires
-  `pluginRepo` in config; if absent, emit the diff as a local file and suggest a PR
-  to the public plugin repo.
+  `.lens/`): concrete diff, apply on approval. For a bundled lens: if the session is
+  inside the lens plugin repo (maintainer context), apply the diff there; otherwise
+  emit it as a local file and suggest a PR to the public plugin repo.
 - **CLAUDE.md update** → concrete diff, addressed to the specific project's CLAUDE.md.
 
 ## The approval gate

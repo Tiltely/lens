@@ -112,11 +112,14 @@ With ≥1 real queued session: `/lens:retro`.
 PASS when: pending computed as pending minus processed; proposals require explicit
 approval; observations appended only after approval; processed marker appended.
 
-## new (after Phase 3) — maintainer path
-`/lens:new parity "web↔mobile feature parity"` with `pluginRepo` in lens.json.
-PASS when: clean-tree + default-branch checked first; SKILL.md scaffolded from
-template with 8–12 real questions; registry row appended; diff shown; commit only
-after approval.
+## new — maintainer path (auto-detected inside the plugin repo)
+`/lens:new parity "web↔mobile feature parity"` run with cwd INSIDE the lens plugin
+repo (root has `.claude-plugin/plugin.json` name=lens).
+PASS when: the "bundled set" option is offered WITHOUT any maintainer question (it
+appears because the repo is detected, not asked); clean-tree + default-branch checked;
+SKILL.md scaffolded with 8–12 real questions; registry row appended; diff shown;
+commit only after approval. Run OUTSIDE the plugin repo → the bundled option is NEVER
+offered and no maintainer question is asked.
 
 ## new — global path (read-inline, NOT a separate skill)
 Same command with lens.json containing ONLY `foundry`.

@@ -43,26 +43,21 @@ First, detect the surface, because it changes WHERE config and foundry can live:
    the registry of YOUR lenses, same columns as `${CLAUDE_PLUGIN_ROOT}/core/registry.md`,
    starting empty — and an empty `lenses/` dir (where `/lens:new` writes your global
    lenses; `/lens:socratic` reads them inline).
-2. **(Maintainers only) plugin repo.** If the user has a writable clone of a lens
-   plugin repo and wants /lens:new to commit lenses INTO the bundled set, note its
-   path. Everyone else skips this — lenses you create live in your foundry
-   (`<foundry>/lenses/`) or a project's `.lens/`, read-inline by /lens:socratic, never
-   as separate skills. This works identically on Code and Cowork (read-inline needs no
-   skill loading).
-3. **Write the config** at the location chosen in step 1 (`~/.claude/lens.json` for
-   Code, `~/lens/lens.json` for cross-surface). Show the user before writing;
-   `pluginRepo` only if step 2 applied:
+   (Lenses you create live in `<foundry>/lenses/` or a project's `.lens/`, read-inline
+   by /lens:socratic — never as separate skills. Works identically on Code and Cowork.
+   Do NOT ask about maintaining the plugin — that path is detected automatically by
+   /lens:new when you're working inside the lens plugin repo; it is not a setup choice.)
+2. **Write the config** at the location chosen in step 1. Show the user before writing:
 
        {
-         "foundry": "<foundry path>",
-         "pluginRepo": "<plugin repo path — optional, maintainers only>"
+         "foundry": "<foundry path>"
        }
 
    **Cowork only:** tell the user to grant Cowork filesystem access to the foundry
-   folder (and `~/lens/`) so the SessionEnd hook can read the config and write the
-   queue from inside Cowork's VM. Without that grant the loop silently no-ops there.
+   folder so the SessionEnd hook can read the config and write the queue from inside
+   Cowork's VM. Without that grant the loop silently no-ops there.
 
-4. **Hand the user the cross-cwd permission rule** so retro/hook writes never prompt
+3. **Hand the user the cross-cwd permission rule** so retro/hook writes never prompt
    from other projects' sessions. Do NOT edit `~/.claude/settings.json` yourself —
    permission-widening by an agent is blocked by Claude Code's auto-mode classifier
    by design, even when a skill instructs it. Instead, print a single paste-ready
@@ -75,11 +70,10 @@ First, detect the surface, because it changes WHERE config and foundry can live:
          "Write(//<foundry path>/**)"
        ]
 
-   (Maintainers also add: `"Bash(git -C <plugin repo path> *)"`.) This step is
-   optional: without it everything still works — the user just gets a one-time
-   permission prompt on the first cross-project foundry write.
-5. **Verify**: run the plugin's `scripts/queue-retro.sh` with no stdin — it must
+   This step is optional: without it everything still works — the user just gets a
+   one-time permission prompt on the first cross-project foundry write.
+4. **Verify**: run the plugin's `scripts/queue-retro.sh` with no stdin — it must
    exit 0 silently. Confirm the config you wrote parses (cat it back).
-6. Tell the user: config written; the SessionEnd hook will now queue lens-using
+5. Tell the user: config written; the SessionEnd hook will now queue lens-using
    sessions; run /lens:retro to process them, and /lens:new to grow your lens
    collection (used via /lens:socratic — not as separate slash commands).

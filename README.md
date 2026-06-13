@@ -83,7 +83,7 @@ and PRs from Cowork use are especially welcome.
 | `/lens:usability` | End-user flows, missing states, navigation, i18n |
 | `/lens:tdd` | Tests that earn their existence — kills mock-echo, implementation mirrors, and testing-for-testing's-sake |
 | `/lens:retro` | Mine your queued sessions; propose new lenses and CLAUDE.md updates |
-| `/lens:new` | Scaffold a new lens — global (your foundry), project (`<repo>/.lens/`), or the bundled set if you maintain it; used via `/lens:socratic`, read-inline |
+| `/lens:new` | Scaffold a new lens — global (your foundry) or project (`<repo>/.lens/`); used via `/lens:socratic`, read-inline. (Inside the plugin repo it also offers the bundled set — auto-detected, never asked.) |
 | `/lens:setup` | Create YOUR personal memory loop, once per machine (optional) |
 
 ## One kind of lens, one interface
