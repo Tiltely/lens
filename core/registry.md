@@ -10,7 +10,8 @@ global foundry, or here on the maintainer path).
 
 | skill | type | modes | purpose | trigger signals |
 |---|---|---|---|---|
-| socratic | utility | design, audit | Discovery orchestrator: rounds → the four excavations → lens plan → chained lenses. Audit: re-runs the session's lens plan against the built code + contract check vs dossier decisions | starting any non-trivial feature or issue; auditing what got built afterwards |
+| socratic | utility | design, audit | Discovery orchestrator: rounds → the four excavations → lens plan → chained lenses → mandatory adversary red-team. Audit: re-runs the session's lens plan against the built code + contract check vs dossier decisions | starting any non-trivial feature or issue; auditing what got built afterwards |
+| adversary | meta | plan-critique | Red-teams the synthesized plan: refute it, weakest decision, what discovery missed (four excavations vs the plan), reversibility, "first thing that worked". Suggests plan mode (waits for user). MANDATORY final step of /lens:socratic; also standalone on any plan/diff. (type `meta` → not trigger-matched into the lens chain; socratic always runs it last) | end of any planning; "is this plan sound?"; critiquing a diff or design |
 | security | lens | design, audit | Sessions, auth, tokens, secrets, authorization layers | login, tokens, payments, user data, webhooks, anything an attacker would love |
 | design | lens | design, audit | Interface design, library-agnostic: ranked component candidates in the project's design system, layout, navigation, states, platform matrix; audit = professional critique of implemented UI (keep/refine/rework) | new screens/components, redesigns, "where should X go", "is this the best UI for this?" |
 | usability | lens | design, audit | End-user flows, navigation, missing states, i18n; audit = critique of the built flow | new user-facing pages, flows users complained about |

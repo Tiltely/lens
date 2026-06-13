@@ -58,8 +58,16 @@ reviewing something already built → audit (confirm your inference in one line)
    skips answered questions (printing skip lines).
 5. **Synthesis**: render the final mind-map (the frontier tree — every node resolved
    or deferred); decisions made; open risks; the four excavations as a compact map;
-   concrete action list. Write the final dossier state.
-6. **Close**: remind the user — after the implementation lands, run
+   concrete action list. This is the DRAFT plan.
+6. **Red-team the plan (MANDATORY)**: run the `adversary` lens on the draft —
+   read-inline `${CLAUDE_PLUGIN_ROOT}/skills/adversary/SKILL.md` (or invoke
+   `/lens:adversary`). It first SUGGESTS plan mode and waits for the user, then attacks
+   the plan (refutation, weakest decision, what discovery missed, reversibility,
+   "first thing that worked"). Disposition every finding: revise a decision / reopen a
+   frontier branch (→ back to step 2) / accept as explicit risk. The plan is FINAL only
+   after it survives. Then write the final dossier state. (This step is not pruned —
+   the adversarial pass reliably finds what discovery missed.)
+7. **Close**: remind the user — after the implementation lands, run
    `/lens:socratic audit` to verify it against this dossier, and /lens:retro after
    that (the SessionEnd hook has already queued this session if any lens ran).
 

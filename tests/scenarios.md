@@ -54,6 +54,14 @@ overrides the bundled battery for that repo (nearest-wins); a repo WITHOUT `.len
 behaves exactly as before. The foundry/hook/retro are unchanged — the session still
 queues because it ran lens:socratic.
 
+## adversary (mandatory red-team in socratic)
+Run a full `/lens:socratic` design session to the synthesis.
+PASS when: after synthesis, the adversary step runs WITHOUT being asked (mandatory);
+it first SUGGESTS plan mode and waits for the user (does not toggle it); it produces a
+critique table with concrete findings (not generic), each dispositioned
+revise/reopen/accept; a "reopen" sends control back to discovery; the plan is declared
+final only after surviving. Standalone `/lens:adversary` on a plan/diff also works.
+
 ## security (design)
 Headless smoke: `claude --plugin-dir /Users/leonardo/Tiltely/lens -p "Invoke the lens:security skill in design mode for a hypothetical Next.js SPA login feature. Ask me only the first question, then stop."`
 PASS when: exactly one Tier 1 question, framed per battery.

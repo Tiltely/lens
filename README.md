@@ -82,6 +82,7 @@ and PRs from Cowork use are especially welcome.
 | `/lens:design` | Interface design, library-agnostic: ranked component candidates in YOUR design system, deep platform questions (PWA pack), and a professional critique of implemented UI (keep/refine/rework) |
 | `/lens:usability` | End-user flows, missing states, navigation, i18n |
 | `/lens:tdd` | Tests that earn their existence — kills mock-echo, implementation mirrors, and testing-for-testing's-sake |
+| `/lens:adversary` | Red-teams a plan before you commit — refutes it, finds the weakest decision and what discovery missed. Runs automatically as `/lens:socratic`'s final step; also standalone on any plan/diff |
 | `/lens:retro` | Mine your queued sessions; propose new lenses and CLAUDE.md updates |
 | `/lens:new` | Scaffold a new lens — global (your foundry) or project (`<repo>/.lens/`); used via `/lens:socratic`, read-inline. (Inside the plugin repo it also offers the bundled set — auto-detected, never asked.) |
 | `/lens:setup` | Create YOUR personal memory loop, once per machine (optional) |

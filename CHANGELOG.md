@@ -5,6 +5,21 @@ the `version` field in `.claude-plugin/plugin.json` is the source of truth and i
 bumped on every meaningful change (it's the cache key Claude Code and Cowork use to
 detect updates). This file is informational and does not affect update detection.
 
+## [0.5.0] — 2026-06-13
+
+### Added
+- **The Lens of the Adversary** (`/lens:adversary`) — red-teams a plan before you
+  commit: refutation, weakest decision, what discovery missed (the four excavations
+  re-run against the plan), reversibility, the "first thing that worked" test. Each
+  finding is dispositioned revise/reopen/accept. It first suggests plan mode and waits
+  for the user (never toggles it). Runs as the **mandatory final step of
+  `/lens:socratic`** (the adversarial pass reliably surfaces what planning missed), and
+  works standalone on any plan or diff. A meta-lens — critiques the plan, not a domain.
+
+### Docs
+- Per-environment foundries are by design: Claude Code and Cowork each keep their own
+  foundry and grown lenses (environment-scoping, not fragmentation).
+
 ## [0.4.2] — 2026-06-13
 
 ### Changed
