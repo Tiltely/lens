@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="assets/banner.gif" alt="lens — Socratic lenses for software engineering" width="640">
+</p>
+
 # lens — Socratic lenses for software engineering
 
 A Claude Code plugin born from two ideas: the **lenses** of Jesse Schell's
