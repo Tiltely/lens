@@ -15,9 +15,10 @@ Then `/reload-plugins` (or restart Claude Code).
 
 ### Optional: auto-update
 
-Releases are pinned to commit SHAs — every push to `main` is a new version. To
-receive them automatically on startup, enable auto-update for the `tiltely`
-marketplace in `~/.claude/settings.json`:
+Releases are versioned (semver, the `version` field in `plugin.json`) and bumped on
+each meaningful change — that's what Claude Code and Cowork compare to detect an
+update. To receive them automatically on startup, enable auto-update for the
+`tiltely` marketplace in `~/.claude/settings.json`:
 
     {
       "extraKnownMarketplaces": {
