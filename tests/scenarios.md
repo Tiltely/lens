@@ -118,8 +118,15 @@ PASS when: clean-tree + default-branch checked first; SKILL.md scaffolded from
 template with 8–12 real questions; registry row appended; diff shown; commit only
 after approval.
 
-## new — personal path
+## new — global path (read-inline, NOT a separate skill)
 Same command with lens.json containing ONLY `foundry`.
-PASS when: lens lands in `~/.claude/skills/lens-<name>/SKILL.md` with no surviving
-placeholders; row appended to `<foundry>/registry.md` (not the plugin's); no git
-operations attempted; PR suggestion mentioned; loads next session.
+PASS when: lens lands in `<foundry>/lenses/<name>/SKILL.md` (NOT `~/.claude/skills/`)
+with no surviving placeholders; row appended to `<foundry>/registry.md`; NO
+`~/.claude/skills/lens-*` skill is created and NO `/lens-<name>` command is implied;
+`/lens:socratic` discovers it read-inline next run; PR-to-bundled suggestion mentioned.
+
+## new — project path
+Same command run inside a git repo, project scope chosen.
+PASS when: lens lands in `<repo>/.lens/lenses/<name>/SKILL.md`; row appended to
+`<repo>/.lens/registry.md`; `.lens/` git-excluded via `git rev-parse --git-path
+info/exclude` (fallback: proposed .gitignore, never silent); read-inline by socratic.

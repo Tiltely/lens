@@ -61,9 +61,10 @@ verified at the skill level, with the memory loop working under one extra setup 
 - **Code-flavored, degrades gracefully:** `/lens:tdd` and stack detection assume a
   codebase; on a non-code project, detection finds no stack and falls back to the
   generic battery — nothing breaks, some lenses are just less relevant.
-- **Personal lens authoring** (`/lens:new`) is Code-only for now (it writes to
-  `~/.claude/skills/`, which Cowork's sandbox blocks); on Cowork use the built-in
-  Customize flow to author skills. The loop (queue + retro) works on both.
+- **Authoring your own lenses** (`/lens:new`) works on Cowork too: lenses you create
+  go into your foundry (`<foundry>/lenses/`) or a project's `.lens/` and are
+  read-inline by `/lens:socratic` — no `~/.claude/skills/` write, so the sandbox block
+  doesn't apply. The loop (queue + retro) and authoring both work on Code and Cowork.
 
 To verify on your machine: `/lens:setup` (cross-surface location), grant Cowork access
 to `~/lens/`, run `/lens:socratic` on a real task, end the session, and confirm a line
@@ -82,37 +83,40 @@ and PRs from Cowork use are especially welcome.
 | `/lens:usability` | End-user flows, missing states, navigation, i18n |
 | `/lens:tdd` | Tests that earn their existence — kills mock-echo, implementation mirrors, and testing-for-testing's-sake |
 | `/lens:retro` | Mine your queued sessions; propose new lenses and CLAUDE.md updates |
-| `/lens:new` | Scaffold a new lens — personal (into `~/.claude/skills/`), or into the plugin repo if you maintain it |
+| `/lens:new` | Scaffold a new lens — global (your foundry), project (`<repo>/.lens/`), or the bundled set if you maintain it; used via `/lens:socratic`, read-inline |
 | `/lens:setup` | Create YOUR personal memory loop, once per machine (optional) |
+
+## One kind of lens, one interface
+
+Every lens — bundled or one you create — is used the same way: through
+`/lens:socratic`, which discovers and applies all of them. There is no "personal vs
+plugin" lens; there are just lenses, and where each is registered decides only its
+reach (nearest-wins, like a nearer CLAUDE.md). The bundled lenses additionally get a
+`/lens:<name>` shortcut — that's a Claude Code namespace convenience, not a different
+class of lens.
+
+You grow your own collection with `/lens:new`, choosing a scope:
+
+- **Global** → `<foundry>/lenses/<name>/` — applies everywhere on this machine.
+- **Project** → `<repo>/.lens/lenses/<name>/` — applies only in that repo, and
+  overrides a bundled lens of the same name there.
+
+Both are registered in their `registry.md` and **read-inline by `/lens:socratic`** —
+no `~/.claude/skills` copy, no second slash syntax, no reload. They live outside the
+plugin, so auto-updates never touch your collection. To give a project lens its own
+slash command or share it with a team, commit its `SKILL.md` to
+`<repo>/.claude/skills/lens-<name>/` (Claude Code loads that one natively).
 
 ## Your own memory loop
 
-Every user runs their OWN foundry — a private folder where the session-end hook
-queues your lens sessions, `/lens:retro` mines them, and `/lens:new` grows lenses
-that fit YOUR work. Personal lenses scaffold into `~/.claude/skills/lens-<name>/` and
-are **directly invocable as `/lens-<name>`** after `/reload-plugins` (or a new
-session), and `/lens:socratic` plans with them alongside the bundled set. They live
-OUTSIDE the plugin, so plugin auto-updates never overwrite them — your collection is
-yours. Run `/lens:setup` once per machine to enable it: it picks the
-location — `~/.claude/lens-foundry/` on Claude Code, or `~/lens/` for a cross-surface
-setup that also works in Cowork (no git required). The hook finds the config in order:
-`$LENS_CONFIG` → `~/.claude/lens.json` → `~/lens/lens.json`.
-
-The lenses bundled with this plugin are the curated set published from the
-maintainers' foundry. If one of your personal lenses earns its keep, PRs are
-welcome. Without setup, all lenses and the orchestrator work out of the box; the
-session-end hook silently does nothing.
-
-### Project-scoped lenses
-
-A repo can carry its own lenses. `/lens:new` (project scope) writes them to
-`<repo>/.lens/lenses/<name>/SKILL.md` and `/lens:socratic` discovers them from the
-repo root, merging into the plan **nearest-wins** (a project lens named `design`
-overrides the bundled one for that repo) — the same way a nearer CLAUDE.md layers
-over a farther one. `.lens/` is git-excluded by default; to share a lens with your
-team, commit its `SKILL.md` to `<repo>/.claude/skills/lens-<name>/` instead (Claude
-Code loads it natively). The memory loop stays global — project lenses are mined into
-your one foundry like any other session.
+The session-end hook queues your lens sessions into your foundry, `/lens:retro` mines
+them, and `/lens:new` grows your collection. Run `/lens:setup` once per machine: it
+picks the foundry location — `~/.claude/lens-foundry/` on Claude Code, or `~/lens/`
+for a cross-surface setup that also works in Cowork (no git required). The hook finds
+the config in order: `$LENS_CONFIG` → `~/.claude/lens.json` → `~/lens/lens.json`. The
+loop stays global — project lenses are mined into your one foundry like any other
+session. Without setup, all lenses and `/lens:socratic` still work; only the hook
+silently does nothing.
 
 ## How it works
 

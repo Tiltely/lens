@@ -1,6 +1,6 @@
 ---
 name: setup
-description: One-time per-machine setup of YOUR lens memory loop - a personal foundry where the session hook queues lens sessions, /lens:retro mines them, and /lens:new grows your personal lens collection. Use when the user runs /lens:setup, or when a foundry-dependent skill (retro, new) finds ~/.claude/lens.json missing and the user wants to fix that.
+description: One-time per-machine setup of YOUR lens memory loop - your own foundry where the session hook queues lens sessions, /lens:retro mines them, and /lens:new grows your lens collection. Use when the user runs /lens:setup, or when a foundry-dependent skill (retro, new) finds ~/.claude/lens.json missing and the user wants to fix that.
 ---
 
 # Lens Setup (any machine)
@@ -27,14 +27,16 @@ First, detect the surface, because it changes WHERE config and foundry can live:
    - **Power option:** a directory inside a private git repo, ledger versioned/synced.
    Create the foundry dir with empty `pending-retros.jsonl` and
    `processed-retros.jsonl`, an `observations.md` with a one-line header
-   ("Cross-project learnings mined by /lens:retro; append-only"), and a `registry.md`
-   — the PERSONAL lens registry: same columns as
-   `${CLAUDE_PLUGIN_ROOT}/core/registry.md`, starting empty.
+   ("Cross-project learnings mined by /lens:retro; append-only"), a `registry.md` —
+   the registry of YOUR lenses, same columns as `${CLAUDE_PLUGIN_ROOT}/core/registry.md`,
+   starting empty — and an empty `lenses/` dir (where `/lens:new` writes your global
+   lenses; `/lens:socratic` reads them inline).
 2. **(Maintainers only) plugin repo.** If the user has a writable clone of a lens
-   plugin repo and wants /lens:new to commit lenses INTO the plugin, note its path.
-   Everyone else skips this — personal lenses go to `~/.claude/skills/` on Code.
-   (Personal-lens authoring is Code-only for now; on Cowork the memory loop —
-   hook + retro — works, but use Cowork's own Customize flow to author skills.)
+   plugin repo and wants /lens:new to commit lenses INTO the bundled set, note its
+   path. Everyone else skips this — lenses you create live in your foundry
+   (`<foundry>/lenses/`) or a project's `.lens/`, read-inline by /lens:socratic, never
+   as separate skills. This works identically on Code and Cowork (read-inline needs no
+   skill loading).
 3. **Write the config** at the location chosen in step 1 (`~/.claude/lens.json` for
    Code, `~/lens/lens.json` for cross-surface). Show the user before writing;
    `pluginRepo` only if step 2 applied:
@@ -67,4 +69,5 @@ First, detect the surface, because it changes WHERE config and foundry can live:
 5. **Verify**: run the plugin's `scripts/queue-retro.sh` with no stdin — it must
    exit 0 silently. Confirm the config you wrote parses (cat it back).
 6. Tell the user: config written; the SessionEnd hook will now queue lens-using
-   sessions; run /lens:retro to process them, and /lens:new to grow personal lenses.
+   sessions; run /lens:retro to process them, and /lens:new to grow your lens
+   collection (used via /lens:socratic — not as separate slash commands).

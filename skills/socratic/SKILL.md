@@ -34,24 +34,28 @@ reviewing something already built → audit (confirm your inference in one line)
    synthesis (showing the mind-map) once only LOW/deferred branches remain or answers
    stop spawning branches. The user can say "enough, synthesize" at any step — honor
    it. Append everything to the dossier as you go.
-3. **Lens plan** (build it once the frontier is empty or deferred). Union the `lens`
-   rows from three sources, **nearest-wins on lens name** (project > personal >
-   bundled — a nearer definition overrides a farther one, like a nearer CLAUDE.md):
+3. **Lens plan** (build it once the frontier is empty or deferred). Every lens —
+   bundled or user-created — is a candidate; union the `lens` rows from all sources,
+   **nearest-wins on lens name** (project > global > bundled — a nearer definition
+   overrides a farther one, like a nearer CLAUDE.md):
    - bundled `core/registry.md`;
-   - personal `<foundry>/registry.md` (when a lens config exists, v1);
-   - **project** `<repo>/.lens/registry.md` — if the cwd is in a git repo (find the
-     root with `git rev-parse --show-toplevel`) and that file exists.
+   - your global registry: resolve the foundry from the lens config
+     (first-readable-wins: `$LENS_CONFIG` → `~/.claude/lens.json` → `~/lens/lens.json`;
+     read its `foundry` key), then read `<foundry>/registry.md` and the lens bodies in
+     `<foundry>/lenses/<name>/SKILL.md`. Skip silently if no config/registry exists.
+   - project `<repo>/.lens/registry.md` (+ `<repo>/.lens/lenses/`) — if cwd is in a git
+     repo (root via `git rev-parse --show-toplevel`) and it exists.
    A lens is the (registry row + its `SKILL.md`); nearest-wins selects BOTH from the
-   level that defines the name. Pick the lenses whose trigger signals match what the
-   rounds surfaced; mark personal "(personal)" and project "(project)" in the plan.
+   level that defines the name. Pick the lenses whose triggers match what the rounds
+   surfaced; for transparency tag each by origin — (bundled) / (yours) / (project).
    Present an ordered plan: lens → one-line reason. Let the user prune or reorder.
 4. **Execute the chain in this session**, dispatching per lens:
-   - resolves to a LOADED skill (bundled `/lens:x`, or a personal `lens-x` in
-     `~/.claude/skills/`) → invoke it;
-   - a PROJECT lens (`<repo>/.lens/lenses/<name>/SKILL.md`, no loadable skill) → READ
-     its SKILL.md inline and run its battery here (same as how this orchestrator reads
-     core/*.md). Single-writer rule still holds: you write the dossier.
-   Each lens reads the dossier and skips answered questions (printing skip lines).
+   - a BUNDLED lens → invoke its skill (`/lens:<name>`);
+   - a lens you created (global `<foundry>/lenses/<name>/SKILL.md` or project
+     `<repo>/.lens/lenses/<name>/SKILL.md`) → READ its SKILL.md inline and run its
+     battery here (same as how this orchestrator reads core/*.md).
+   Single-writer rule holds: you write the dossier. Each lens reads the dossier and
+   skips answered questions (printing skip lines).
 5. **Synthesis**: render the final mind-map (the frontier tree — every node resolved
    or deferred); decisions made; open risks; the four excavations as a compact map;
    concrete action list. Write the final dossier state.

@@ -5,27 +5,30 @@ description: Scaffold a new lens for this plugin. Use when /lens:retro proposed 
 
 # New Lens Scaffolder
 
-First ask the user which SCOPE the new lens should have (offer the ones that apply):
+Every lens — bundled or one you create — is used the same way: through
+`/lens:socratic`, which discovers and applies it. Lenses you create are NOT separate
+slash commands; only the bundled set has `/lens:<name>` shortcuts (a Claude Code
+namespace limit, not a choice). So a new lens just needs a HOME + a registry row that
+socratic reads. Draft the battery socratically first (step 3), then write it to the
+chosen scope — no commit, no plugin rebuild, no reload; socratic reads it fresh.
 
-- **Project** — applies only in THIS repo. Available whenever cwd is inside a git
-  repo. Draft the battery (step 3 below), then write it to
+Ask which SCOPE the new lens should have (offer the ones that apply):
+
+- **Project** — applies only in THIS repo (when cwd is in a git repo). Write to
   `<repo>/.lens/lenses/<name>/SKILL.md` from the template (no surviving placeholders),
-  append the row to `<repo>/.lens/registry.md` (create it if absent), and exclude
-  `.lens/` from git: append to the repo's exclude file resolved via
-  `git rev-parse --git-path info/exclude` (handles worktrees/submodules); if that
-  fails, PROPOSE a `.gitignore` entry — never silently edit `.gitignore`. No commit,
-  no plugin rebuild — `/lens:socratic` reads it inline next run. To share it with the
-  team instead, commit its SKILL.md to `<repo>/.claude/skills/lens-<name>/`.
-- **Personal** (global) — `foundry` in the lens config (discover first-readable-wins:
-  `$LENS_CONFIG` → `~/.claude/lens.json` → `~/lens/lens.json`). Draft the battery,
-  write it to `~/.claude/skills/lens-<name>/SKILL.md` from the template, append the
-  row to `<foundry>/registry.md`. It becomes **directly invocable as `/lens-<name>`**
-  after `/reload-plugins` (or a new session) — AND it lives outside the plugin, so
-  plugin auto-updates never touch it. `/lens:socratic` also plans with it. A personal
-  lens that earns its keep can be PR'd to the public plugin repo.
-- **Into the plugin (maintainer)** — `pluginRepo` set in the config: full steps below.
+  append the row to `<repo>/.lens/registry.md` (create if absent), and git-exclude
+  `.lens/` via `git rev-parse --git-path info/exclude` (handles worktrees/submodules;
+  on failure PROPOSE a `.gitignore` entry — never silently edit it). To SHARE it with
+  the team, commit its SKILL.md to `<repo>/.claude/skills/lens-<name>/` (Claude Code
+  loads that one natively as a slash command).
+- **Global** — applies everywhere on this machine. Write to
+  `<foundry>/lenses/<name>/SKILL.md` and append the row to `<foundry>/registry.md`
+  (foundry from the config: `$LENS_CONFIG` → `~/.claude/lens.json` → `~/lens/lens.json`).
+  Lives in the foundry, outside the plugin — auto-updates never touch it. A global
+  lens that earns its keep can be PR'd into the bundled set.
+- **Into the bundled set (maintainer)** — `pluginRepo` set in the config: steps below.
 - **No config and not in a repo:** write the drafted lens to `./lens-proposal-<name>.md`
-  in the cwd with a note on how to add it later, and point the user at /lens:setup.
+  with a note on how to add it later, and point the user at /lens:setup.
 
 ## Steps (maintainer path)
 
