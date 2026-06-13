@@ -45,18 +45,28 @@ only), and keeps its own plugin state separate from Claude Code. In Cowork:
 then enter `https://github.com/Tiltely/lens` and install `lens` from the catalog.
 
 **Why Experimental:** the engine is built and tested on Claude Code; on Cowork it is
-not yet fully verified end-to-end. What to expect:
+verified at the skill level, with the memory loop working under one extra setup step
+(below). What to expect:
 
-- **Works:** the lenses and `/lens:socratic` (skills are cross-platform); the
-  session-end hook and the personal memory loop run on Cowork's local VM — personal
-  lenses scaffold to `~/.claude/skills/` (filesystem, no git needed).
+- **Works out of the box:** the lenses and `/lens:socratic` (skills are
+  cross-platform) — no setup, no config.
+- **Memory loop — needs a Cowork-safe foundry:** Cowork's sandbox blocks read/write
+  to `~/.claude/`, so the default Code foundry is invisible there. Put your config
+  and foundry under `~/lens/` instead (the hook discovers config in order:
+  `$LENS_CONFIG` → `~/.claude/lens.json` → `~/lens/lens.json`), and grant Cowork
+  filesystem access to `~/lens/`. Then the SessionEnd hook + `/lens:retro` work on
+  Cowork's local VM. Run `/lens:setup` and choose the cross-surface (`~/lens/`)
+  location.
 - **Code-flavored, degrades gracefully:** `/lens:tdd` and stack detection assume a
   codebase; on a non-code project, detection finds no stack and falls back to the
   generic battery — nothing breaks, some lenses are just less relevant.
-- **Verify once on your machine** before relying on the memory loop here: run
-  `/lens:setup`, then `/lens:socratic` on a real task, end the session, and confirm a
-  line landed in your foundry's `pending-retros.jsonl`. If your Cowork folder
-  permissions allow that write, the loop is good.
+- **Personal lens authoring** (`/lens:new`) is Code-only for now (it writes to
+  `~/.claude/skills/`, which Cowork's sandbox blocks); on Cowork use the built-in
+  Customize flow to author skills. The loop (queue + retro) works on both.
+
+To verify on your machine: `/lens:setup` (cross-surface location), grant Cowork access
+to `~/lens/`, run `/lens:socratic` on a real task, end the session, and confirm a line
+landed in `~/lens/foundry/pending-retros.jsonl`.
 
 First-class, non-code lenses and depth packs for Cowork are on the roadmap. Feedback
 and PRs from Cowork use are especially welcome.

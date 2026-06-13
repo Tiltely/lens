@@ -5,7 +5,8 @@ description: Scaffold a new lens for this plugin. Use when /lens:retro proposed 
 
 # New Lens Scaffolder
 
-Routing, by what `~/.claude/lens.json` contains:
+Routing, by what the lens config contains (discover it first-readable-wins:
+`$LENS_CONFIG` → `~/.claude/lens.json` → `~/lens/lens.json`):
 
 - **`pluginRepo` set (maintainer):** scaffold INTO the plugin repo — full steps below.
 - **only `foundry` set (everyone else):** scaffold a PERSONAL lens — draft the

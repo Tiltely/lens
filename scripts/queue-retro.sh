@@ -16,8 +16,14 @@ lenses=$(grep -o '"skill":"lens[:-][^"]*"' "$transcript" 2>/dev/null \
   | sed 's/.*"lens[:-]\([^"]*\)"/\1/' | sort -u | paste -sd, -)
 [ -n "$lenses" ] || exit 0
 
-CONFIG="$HOME/.claude/lens.json"
-[ -f "$CONFIG" ] || exit 0
+# Config discovery, first READABLE wins: env override → Code-native (~/.claude) →
+# cross-surface (~/lens, outside the dir Cowork's sandbox blocks). Use -r not -f:
+# on Cowork ~/.claude/lens.json may exist-but-be-unreadable, so fall through.
+CONFIG=""
+for c in "$LENS_CONFIG" "$HOME/.claude/lens.json" "$HOME/lens/lens.json"; do
+  [ -n "$c" ] && [ -r "$c" ] && { CONFIG="$c"; break; }
+done
+[ -n "$CONFIG" ] || exit 0
 foundry=$(sed -n 's/.*"foundry"[[:space:]]*:[[:space:]]*"\([^"]*\)".*/\1/p' "$CONFIG")
 [ -n "$foundry" ] && [ -d "$foundry" ] || exit 0
 

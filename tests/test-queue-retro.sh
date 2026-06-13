@@ -69,6 +69,23 @@ assert "two entries" "2" "$(wc -l < "$PENDING" | tr -d ' ')"
 last=$(tail -1 "$PENDING")
 case "$last" in *'"lenses_used":"parity"'*) assert "personal lens extracted" y y;; *) assert "personal lens extracted" y n;; esac
 
+echo "8) config at ~/lens/lens.json (Cowork-safe, ~/.claude unreadable) -> discovered"
+rm -f "$HOME/.claude/lens.json"           # ~/.claude config gone (sandbox-blocked)
+mkdir -p "$HOME/lens" "$TMP/foundry2"
+P2="$TMP/foundry2/pending-retros.jsonl"; touch "$P2" "$TMP/foundry2/processed-retros.jsonl"
+printf '{\n  "foundry": "%s"\n}\n' "$TMP/foundry2" > "$HOME/lens/lens.json"
+mk_input "$LENS_T" s7 | sh "$SCRIPT"; rc=$?
+assert "exit 0" "0" "$rc"
+assert "queued to ~/lens foundry" "1" "$(wc -l < "$P2" | tr -d ' ')"
+
+echo "9) LENS_CONFIG env override wins"
+mkdir -p "$TMP/foundry3"; P3="$TMP/foundry3/pending-retros.jsonl"
+touch "$P3" "$TMP/foundry3/processed-retros.jsonl"
+printf '{ "foundry": "%s" }\n' "$TMP/foundry3" > "$TMP/custom-lens.json"
+LENS_CONFIG="$TMP/custom-lens.json" mk_input "$LENS_T" s8 | LENS_CONFIG="$TMP/custom-lens.json" sh "$SCRIPT"; rc=$?
+assert "exit 0" "0" "$rc"
+assert "queued to env-pointed foundry" "1" "$(wc -l < "$P3" | tr -d ' ')"
+
 rm -rf "$TMP"
 echo ""; echo "pass=$PASS fail=$FAIL"
 [ "$FAIL" = "0" ] || exit 1

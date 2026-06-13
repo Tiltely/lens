@@ -5,8 +5,10 @@ description: The memory loop. Use when closing significant work or weekly — pr
 
 # Lens Retro
 
-Requires `~/.claude/lens.json` with `foundry` set. If absent: explain in one line,
-point to /lens:setup, stop. Never error.
+Requires a lens config with `foundry` set. Discover it first-readable-wins:
+`$LENS_CONFIG` → `~/.claude/lens.json` → `~/lens/lens.json` (the last is the
+Cowork-safe location, outside the sandbox-blocked `~/.claude/`). If none is found:
+explain in one line, point to /lens:setup, stop. Never error.
 
 ## Compute the pending set
 
