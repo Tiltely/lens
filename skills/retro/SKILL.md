@@ -5,10 +5,10 @@ description: The memory loop. Use when closing significant work or weekly — pr
 
 # Lens Retro
 
-Requires a lens config with `foundry` set. Discover it first-readable-wins:
-`$LENS_CONFIG` → `~/.claude/lens.json` → `~/lens/lens.json` (the last is the
-Cowork-safe location, outside the sandbox-blocked `~/.claude/`). If none is found:
-explain in one line, point to /lens:setup, stop. Never error.
+Requires a lens config with `foundry` set (a Claude Code feature — the loop is not
+supported on Cowork; see /lens:setup). Discover the config first-readable-wins:
+`$LENS_CONFIG` → `~/.claude/lens.json` → `~/lens/lens.json`. If none is found: explain
+in one line, point to /lens:setup, stop. Never error.
 
 ## Compute the pending set
 

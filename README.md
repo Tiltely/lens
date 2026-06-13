@@ -33,45 +33,23 @@ update. To receive them automatically on startup, enable auto-update for the
 `"autoUpdate": true` to it.) Without this, update manually whenever you want:
 `/plugin marketplace update tiltely` followed by `/plugin update lens@tiltely`.
 
-## Claude Cowork (Experimental)
+## Claude Cowork
 
-Plugins are cross-compatible: the same plugin works in Claude Cowork, where Claude
-runs knowledge work — planning a project, prep, reports — on your machine with local
-files and a shell. The Socratic discovery and the design and usability lenses apply
-just as well to non-code work as to code.
+The lenses and `/lens:socratic` work in Claude Cowork — skills are cross-platform, so
+Socratic discovery and the design / usability lenses apply to knowledge work (planning,
+prep, reports) just as they do to code. No setup, no config.
 
-Cowork installs via its GUI, not the `/plugin` CLI commands (those are Claude Code
-only), and keeps its own plugin state separate from Claude Code. In Cowork:
-**Personal plugins → `+` → Create Plugin → Add Marketplace → Add from a repository**,
-then enter `https://github.com/Tiltely/lens` and install `lens` from the catalog.
+Install via Cowork's GUI (not the `/plugin` CLI, which is Claude Code only): **Personal
+plugins → `+` → Create Plugin → Add Marketplace → Add from a repository**, then enter
+`https://github.com/Tiltely/lens` and install `lens`.
 
-**Why Experimental:** the engine is built and tested on Claude Code; on Cowork it is
-verified at the skill level, with the memory loop working under one extra setup step
-(below). What to expect:
-
-- **Works out of the box:** the lenses and `/lens:socratic` (skills are
-  cross-platform) — no setup, no config.
-- **Memory loop — needs a Cowork-safe foundry:** Cowork blocks `~/.claude/` AND its VM
-  home (`~`) is EPHEMERAL, so the foundry must be a REAL, persistent folder you GRANT
-  Cowork access to (e.g. `/Users/<you>/lens-foundry/`) — never under `~`. Point
-  `$LENS_CONFIG` (or the config there) at it; for one shared loop, point Code at the
-  same real folder. Then the SessionEnd hook + `/lens:retro` work on Cowork's VM. Run
-  `/lens:setup` — it detects Cowork and walks you through granting a folder. **Never
-  put the foundry in a git working tree** (personal session data).
-- **Code-flavored, degrades gracefully:** `/lens:tdd` and stack detection assume a
-  codebase; on a non-code project, detection finds no stack and falls back to the
-  generic battery — nothing breaks, some lenses are just less relevant.
-- **Authoring your own lenses** (`/lens:new`) works on Cowork too: lenses you create
-  go into your foundry (`<foundry>/lenses/`) or a project's `.lens/` and are
-  read-inline by `/lens:socratic` — no `~/.claude/skills/` write, so the sandbox block
-  doesn't apply. The loop (queue + retro) and authoring both work on Code and Cowork.
-
-To verify on your machine: `/lens:setup`, grant Cowork your chosen real folder, run
-`/lens:socratic` on a real task, end the session, and confirm a line landed in
-`<that folder>/pending-retros.jsonl`.
-
-First-class, non-code lenses and depth packs for Cowork are on the roadmap. Feedback
-and PRs from Cowork use are especially welcome.
+**The memory loop is Claude Code only.** `/lens:setup`, the SessionEnd hook, `/lens:retro`
+and `/lens:new` need a foundry and a firing hook — but Cowork runs the CLI with
+`--setting-sources user`, so plugin-provided hooks never fire there, and its VM home is
+ephemeral. So on Cowork you get the lenses; the learning loop (foundry, retro, growing
+your own lenses) lives on Claude Code. Run `/lens:setup` on Code to enable it there.
+Code-flavored lenses like `/lens:tdd` still load on Cowork; on non-code work they just
+fall back to a generic battery.
 
 ## Commands
 
@@ -108,25 +86,18 @@ plugin, so auto-updates never touch your collection. To give a project lens its 
 slash command or share it with a team, commit its `SKILL.md` to
 `<repo>/.claude/skills/lens-<name>/` (Claude Code loads that one natively).
 
-## Your own memory loop
+## Your own memory loop (Claude Code)
 
 The session-end hook queues your lens sessions into your foundry, `/lens:retro` mines
 them, and `/lens:new` grows your collection. Run `/lens:setup` once per machine: it
-picks the foundry location — `~/.claude/lens-foundry/` on Claude Code, or a real
-granted folder (e.g. `/Users/<you>/lens-foundry/`) on Cowork, whose VM home is
-ephemeral. The hook finds the config in order: `$LENS_CONFIG` → `~/.claude/lens.json`
-→ `~/lens/lens.json`. The foundry holds personal session data — **keep it out of git**
-(gitignore it if it must live in a repo).
+creates the foundry (default `~/.claude/lens-foundry/`; any non-git folder works) and
+writes `~/.claude/lens.json`. The foundry holds personal session data — **keep it out
+of git**. The loop is single per machine: project lenses are mined into your one
+foundry like any other session. Without setup, all lenses and `/lens:socratic` still
+work; only the hook silently does nothing.
 
-**A foundry per environment is by design.** Claude Code and Claude Cowork each keep
-their OWN foundry (and so their own grown lenses), because the two are different work
-environments: a lens that earns its keep in engineering (e.g. `tdd`) may be irrelevant
-in knowledge work, and vice versa. This is environment-scoping, not fragmentation —
-it's two coarse buckets, each with a concentrated retro loop, not a foundry per
-project. Within an environment the loop stays single — project lenses are mined into
-that environment's one foundry like any other session. Without setup, all lenses and
-`/lens:socratic` still work; only the hook
-silently does nothing.
+The loop is a **Claude Code feature** — see the Cowork section above for why it does
+not run on Cowork (the lenses do).
 
 ## How it works
 

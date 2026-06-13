@@ -5,6 +5,17 @@ the `version` field in `.claude-plugin/plugin.json` is the source of truth and i
 bumped on every meaningful change (it's the cache key Claude Code and Cowork use to
 detect updates). This file is informational and does not affect update detection.
 
+## [0.5.1] — 2026-06-13
+
+### Changed
+- **The memory loop is now Claude Code only.** Cowork runs the CLI with
+  `--setting-sources user` (plugin hooks never fire) and its VM home is ephemeral, so
+  the SessionEnd queue / `/lens:retro` / `/lens:new` loop can't work there. `/lens:setup`
+  now detects Cowork and declines cleanly (use the lenses + `/lens:socratic` directly;
+  run setup on Code for the loop). Dropped the cross-surface/granted-folder foundry
+  gymnastics. The lenses and orchestrator still work fully on Cowork. README + setup
+  simplified to match.
+
 ## [0.5.0] — 2026-06-13
 
 ### Added
