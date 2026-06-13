@@ -32,6 +32,33 @@ marketplace in `~/.claude/settings.json`:
 `"autoUpdate": true` to it.) Without this, update manually whenever you want:
 `/plugin marketplace update tiltely` followed by `/plugin update lens@tiltely`.
 
+## Claude Cowork (Experimental)
+
+Plugins are cross-compatible: the same install works in Claude Cowork, where Claude
+runs knowledge work — planning a project, prep, reports — on your machine with local
+files and a shell. The Socratic discovery and the design / usability / cost lenses
+apply just as well to non-code work as to code.
+
+    /plugin marketplace add Tiltely/lens
+    /plugin install lens@tiltely
+
+**Why Experimental:** the engine is built and tested on Claude Code; on Cowork it is
+not yet fully verified end-to-end. What to expect:
+
+- **Works:** the lenses and `/lens:socratic` (skills are cross-platform); the
+  session-end hook and the personal memory loop run on Cowork's local VM — personal
+  lenses scaffold to `~/.claude/skills/` (filesystem, no git needed).
+- **Code-flavored, degrades gracefully:** `/lens:tdd` and stack detection assume a
+  codebase; on a non-code project, detection finds no stack and falls back to the
+  generic battery — nothing breaks, some lenses are just less relevant.
+- **Verify once on your machine** before relying on the memory loop here: run
+  `/lens:setup`, then `/lens:socratic` on a real task, end the session, and confirm a
+  line landed in your foundry's `pending-retros.jsonl`. If your Cowork folder
+  permissions allow that write, the loop is good.
+
+First-class, non-code lenses and depth packs for Cowork are on the roadmap. Feedback
+and PRs from Cowork use are especially welcome.
+
 ## Commands
 
 | Command | What it does |
