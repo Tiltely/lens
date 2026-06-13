@@ -27,10 +27,13 @@ reviewing something already built → audit (confirm your inference in one line)
    - Round D — blast radius: which systems/repos/platforms/people does this touch?
      (API, web, mobile, DB, infra, third parties, docs, team.)
    These four are SEEDS for the frontier (protocol.md "The frontier"), not a fixed
-   script: each answer may spawn new branches — add them to `## frontier` and work
-   the frontier DOWN (highest-leverage branch next), not just the round order.
-   Discovery ends only when the frontier is empty or every branch is deferred.
-   Append everything to the dossier as you go.
+   script: each answer may spawn new branches — add them to the `## frontier`
+   mind-map (a tree, tagged `[status][stakes]`) and work it DOWN by stakes, not by
+   round order. Discovery ends per protocol.md "When discovery is done": drain by
+   stakes (drop no-consequence, default LOW, defer real-but-later), and PROPOSE
+   synthesis (showing the mind-map) once only LOW/deferred branches remain or answers
+   stop spawning branches. The user can say "enough, synthesize" at any step — honor
+   it. Append everything to the dossier as you go.
 3. **Lens plan** (build it once the frontier is empty or deferred): from the `lens`
    rows of core/registry.md — MERGED with the user's
    personal registry (`<foundry>/registry.md`, when `~/.claude/lens.json` exists) —
@@ -40,7 +43,8 @@ reviewing something already built → audit (confirm your inference in one line)
    reorder.
 4. **Execute the chain in this session**: invoke each planned lens skill in order.
    Each lens reads the dossier and skips answered questions (printing skip lines).
-5. **Synthesis**: decisions made; open risks; the four excavations as a compact map;
+5. **Synthesis**: render the final mind-map (the frontier tree — every node resolved
+   or deferred); decisions made; open risks; the four excavations as a compact map;
    concrete action list. Write the final dossier state.
 6. **Close**: remind the user — after the implementation lands, run
    `/lens:socratic audit` to verify it against this dossier, and /lens:retro after

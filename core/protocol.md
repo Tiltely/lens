@@ -29,9 +29,13 @@ dossier.md). Work it down:
    SPAWN new branches. Add every spawned branch to the frontier the moment it
    appears, before the next question. A branch you do not write down is a branch that
    dies.
-2. Pick the next question from the highest-leverage open branch, not from the round
-   order. The rounds only guarantee you SEED scope/caveat/blast-radius/platform
-   concerns; the frontier guarantees you do not lose the ones an answer opens.
+2. The frontier is a MIND-MAP, not a flat list: record it as a tree (dossier.md
+   `## frontier`) — spawned branches nested under the answer that opened them, each
+   node tagged `[status][stakes]`. Stakes = consequence × irreversibility × blast
+   radius (HIGH / MED / LOW). Pick the next question from the highest-stakes open
+   branch, never the round order. The rounds only guarantee you SEED
+   scope/caveat/blast-radius/platform concerns; the frontier guarantees you do not
+   lose the ones an answer opens.
 3. Discovery is not done until the frontier is empty OR every remaining branch is
    consciously DEFERRED — named, with a reason, moved to `## open`. Never let a branch
    evaporate silently; that silent loss is exactly what the frontier prevents.
@@ -100,6 +104,26 @@ technology-specific knowledge lives in Tier 2 conditionals, `rules/` files, or
 questions, or core battery. The only exception is a lens whose SUBJECT is a specific
 technology, and then its name and registry row must say so explicitly.
 
+## Interrogate decisions, not just answers
+
+The Socratic principle applies to DECISIONS too. A decision is never free — before
+recording one in `## decisions`, ask what choosing it touches:
+
+- **Consumers** — who imports, calls, or depends on what this changes? Does any of
+  them break or need updating?
+- **Contracts** — API shape, DB schema, events, env/config: does this change
+  something others rely on?
+- **Styles / UX** — visual or interaction knock-on: a shared component, theming, an
+  established layout or pattern?
+- **Dependencies** — a new package, a version bump, a lockfile change, a transitive
+  risk?
+- **Platforms** — must the same decision hold on web AND mobile? Where does it
+  intentionally diverge?
+
+Each non-trivial ripple is itself a new branch — add it to the frontier (or, if it is
+purely "what else does this touch", to the blast-radius excavation). A decision that
+silently breaks a consumer is the failure this prevents: it felt local, but was not.
+
 ## When to stop digging
 
 This governs a SINGLE branch (when to stop drilling one thread). Overall discovery
@@ -114,6 +138,35 @@ Stop a line of questioning when:
 
 Record the stop reason in the dossier. Unresolved lines become open questions in the
 final synthesis, never silent omissions.
+
+## When discovery is done
+
+You can always ask another question — so "no questions left" is the WRONG stop
+signal; it never comes, and chasing it is the infinite-doubt trap. The right signal
+is CONSEQUENCE running out, judged by the user. A branch earns a question only while
+its answer would still change what gets built at its stakes.
+
+Drain the frontier by stakes, do not ask everything:
+- **No consequence** (the answer would not change the build) → drop the branch.
+- **LOW stakes** (cheap, reversible, narrow blast radius) → do NOT ask; record a
+  sensible default in the dossier and move on. The user can override later.
+- **Real but not now** → defer to `## open` with an owner (a later phase, the
+  implementer, a spike). Deferring is not dropping.
+- **HIGH/MED stakes, still open** → these are what the user's attention is for.
+
+Propose synthesis as soon as EITHER holds:
+- every remaining open branch is LOW or deferred — the load-bearing questions are
+  answered; or
+- two consecutive answers spawn no new branches — the territory is mapped.
+
+When you propose it, SHOW the mind-map and ask: "the high-stakes branches are
+settled — synthesize now, or dig into <named open branch>?" The user is the
+throttle: offer "enough, synthesize" at every step and honor it immediately.
+
+Hard backstop: never declare discovery done while a HIGH-stakes branch is open and
+neither answered nor deferred. That backstop is the floor (do not stop while real
+doubts remain); the drop/default/defer rules are the ceiling (infinite doubts do not
+help). Between them is where a good dialogue ends.
 
 ## Missing-stack fallback
 

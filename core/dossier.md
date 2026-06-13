@@ -29,9 +29,13 @@ and writes once.
 ## Sections
 
     ## answered      ← question + answer, one bullet each, appended by every lens/round
-    ## frontier      ← LIVE agenda of open question-branches (protocol.md "The frontier");
-                       each branch one line; drained as branches close or move to ## open
-    ## decisions     ← decisions made, with one-line rationale
+    ## frontier      ← LIVE mind-map of open question-branches (protocol.md "The frontier"):
+                       a TREE — spawned branches nested under the answer that opened them,
+                       each node tagged [status][stakes] (open/deepening/answered/deferred/
+                       dropped · HIGH/MED/LOW); drained by stakes as branches resolve
+    ## decisions     ← decisions made: one-line rationale + ripple note (what it touches —
+                       consumers/contracts/styles/deps/platforms; protocol.md "Interrogate
+                       decisions"); non-trivial ripples become frontier branches
     ## caveats / rabbit-holes / blast-radius / platform-matrix  ← the four excavations (protocol.md)
     ## open          ← branches consciously DEFERRED at synthesis + who/what resolves them
 

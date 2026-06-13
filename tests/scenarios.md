@@ -15,9 +15,26 @@ Interactive: `/lens:socratic "add user avatars"`; answer the first question with
 something that opens new territory ("users upload their own images from their phone").
 PASS when: that single answer SPAWNS multiple branches into `## frontier` (e.g. upload
 validation, image processing, storage cost) — not just one vertical follow-up; the
-next question comes from the frontier, not the round order; no opened branch is dropped
-silently (each is closed, deepened, or deferred to ## open with a reason); a branch
-that warrants it adds a lens to the otherwise-provisional plan.
+frontier is a TREE with `[status][stakes]` tags; the next question comes from the
+highest-stakes branch, not the round order; no opened branch is dropped silently (each
+is closed, deepened, or deferred to ## open with a reason); a branch that warrants it
+adds a lens to the otherwise-provisional plan; LOW-stakes branches get recorded
+defaults, not questions; the orchestrator PROPOSES synthesis (showing the mind-map)
+once only LOW/deferred branches remain, and honors "enough, synthesize" at any step.
+
+## socratic (termination on a small task — does not interrogate forever)
+Interactive: `/lens:socratic "make the footer copyright year dynamic"`.
+PASS when: branches are recognized as LOW stakes; defaults are recorded instead of a
+question barrage; synthesis is proposed fast (the HIGH-stakes backstop never fires on
+a trivial task); total questions stay in the low single digits.
+
+## socratic (decision interrogation — ripple check)
+Interactive: state a decision with downstream reach, e.g. "switch auth from
+localStorage tokens to httpOnly cookies."
+PASS when: BEFORE recording it, the decision is interrogated for ripple — consumers
+(every authenticated API call), contracts (CSRF posture, logout), platforms (does
+mobile share this?), deps — and each non-trivial ripple becomes a frontier branch or a
+blast-radius entry, not a silent assumption.
 
 ## socratic (audit mode)
 Interactive: `/lens:socratic audit` in a project with a dossier from a prior design
