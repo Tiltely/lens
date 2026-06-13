@@ -26,8 +26,13 @@ reviewing something already built → audit (confirm your inference in one line)
    - Round C — rabbit holes: which sub-problems look small but are not? Name each.
    - Round D — blast radius: which systems/repos/platforms/people does this touch?
      (API, web, mobile, DB, infra, third parties, docs, team.)
-   Append everything to the dossier as you go. Stop lines per protocol.md.
-3. **Lens plan**: from the `lens` rows of core/registry.md — MERGED with the user's
+   These four are SEEDS for the frontier (protocol.md "The frontier"), not a fixed
+   script: each answer may spawn new branches — add them to `## frontier` and work
+   the frontier DOWN (highest-leverage branch next), not just the round order.
+   Discovery ends only when the frontier is empty or every branch is deferred.
+   Append everything to the dossier as you go.
+3. **Lens plan** (build it once the frontier is empty or deferred): from the `lens`
+   rows of core/registry.md — MERGED with the user's
    personal registry (`<foundry>/registry.md`, when `~/.claude/lens.json` exists) —
    pick the lenses whose trigger signals match what the rounds surfaced. Personal
    lenses are invoked by their skill name (`lens-<name>`); mark them "(personal)" in

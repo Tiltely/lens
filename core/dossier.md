@@ -29,9 +29,11 @@ and writes once.
 ## Sections
 
     ## answered      ← question + answer, one bullet each, appended by every lens/round
+    ## frontier      ← LIVE agenda of open question-branches (protocol.md "The frontier");
+                       each branch one line; drained as branches close or move to ## open
     ## decisions     ← decisions made, with one-line rationale
     ## caveats / rabbit-holes / blast-radius / platform-matrix  ← the four excavations (protocol.md)
-    ## open          ← unresolved questions + who/what resolves them
+    ## open          ← branches consciously DEFERRED at synthesis + who/what resolves them
 
 ## Skip lines (mandatory)
 

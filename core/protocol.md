@@ -6,12 +6,39 @@ this file as ${CLAUDE_PLUGIN_ROOT}/core/protocol.md.
 ## How rounds work
 
 - Ask ONE question at a time. Never batch questions.
-- Every answer may spawn follow-ups. Follow the answer, not the script: if the user
-  says "tokens live in localStorage", the next question is "what happens when one is
-  stolen?" — not the next item on the list.
+- Every answer can move the dialogue two ways. Follow the answer, not the script:
+  - **DEEPER** (vertical, the five whys): drill the same thread. "tokens live in
+    localStorage" → "what happens when one is stolen?" → "what mitigates that?"
+  - **WIDER** (lateral, branching): an answer can open whole new lines that were not
+    planned. "users upload their own avatars" forks into upload validation
+    (security), image processing, moderation, CDN, storage cost — one answer, several
+    new branches. Capture every new branch (see "The frontier") the instant it
+    appears.
 - Prefer concrete over abstract: "what does the user click first?" beats "describe
   the UX vision".
 - Multiple-choice when the option space is known; open-ended when it is not.
+
+## The frontier
+
+The four rounds below are SEEDS, not a script. Maintain a live agenda — the
+**frontier** — of open question-branches in the dossier (`## frontier`, see
+dossier.md). Work it down:
+
+1. Each answer does one of three things to the CURRENT branch — close it (record the
+   decision/caveat), deepen it (a vertical follow-up), or leave it open — AND it may
+   SPAWN new branches. Add every spawned branch to the frontier the moment it
+   appears, before the next question. A branch you do not write down is a branch that
+   dies.
+2. Pick the next question from the highest-leverage open branch, not from the round
+   order. The rounds only guarantee you SEED scope/caveat/blast-radius/platform
+   concerns; the frontier guarantees you do not lose the ones an answer opens.
+3. Discovery is not done until the frontier is empty OR every remaining branch is
+   consciously DEFERRED — named, with a reason, moved to `## open`. Never let a branch
+   evaporate silently; that silent loss is exactly what the frontier prevents.
+4. A spawned branch can change the plan. The lens plan (orchestrator step 3) is
+   PROVISIONAL until the frontier is empty: if a branch reveals a concern a lens
+   covers (e.g. an upload-validation branch → the security lens), add that lens even
+   if the rounds never surfaced it.
 
 ## Question quality bar
 
@@ -75,8 +102,13 @@ technology, and then its name and registry row must say so explicitly.
 
 ## When to stop digging
 
+This governs a SINGLE branch (when to stop drilling one thread). Overall discovery
+ends only when the frontier is empty or every remaining branch is deferred
+(see "The frontier").
+
 Stop a line of questioning when:
-- Two consecutive answers produce no new entries for any of the four excavations; or
+- Two consecutive answers produce no new entries for any of the four excavations AND
+  spawn no new branches; or
 - the user says "enough" / prunes the topic; or
 - the answer is "we don't know yet" AND finding out is itself a named action item.
 

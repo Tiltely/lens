@@ -10,6 +10,15 @@ caveats/rabbit-holes/blast-radius explicitly named; lens plan presented and prun
 chained lenses print skip lines for dossier-answered questions; synthesis lists
 decisions/risks/open/actions; retro reminder appears.
 
+## socratic (branching / the frontier)
+Interactive: `/lens:socratic "add user avatars"`; answer the first question with
+something that opens new territory ("users upload their own images from their phone").
+PASS when: that single answer SPAWNS multiple branches into `## frontier` (e.g. upload
+validation, image processing, storage cost) — not just one vertical follow-up; the
+next question comes from the frontier, not the round order; no opened branch is dropped
+silently (each is closed, deepened, or deferred to ## open with a reason); a branch
+that warrants it adds a lens to the otherwise-provisional plan.
+
 ## socratic (audit mode)
 Interactive: `/lens:socratic audit` in a project with a dossier from a prior design
 session whose implementation has landed.
