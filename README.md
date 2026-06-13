@@ -34,13 +34,15 @@ marketplace in `~/.claude/settings.json`:
 
 ## Claude Cowork (Experimental)
 
-Plugins are cross-compatible: the same install works in Claude Cowork, where Claude
+Plugins are cross-compatible: the same plugin works in Claude Cowork, where Claude
 runs knowledge work — planning a project, prep, reports — on your machine with local
 files and a shell. The Socratic discovery and the design / usability / cost lenses
 apply just as well to non-code work as to code.
 
-    /plugin marketplace add Tiltely/lens
-    /plugin install lens@tiltely
+Cowork installs via its GUI, not the `/plugin` CLI commands (those are Claude Code
+only), and keeps its own plugin state separate from Claude Code. In Cowork:
+**Personal plugins → `+` → Create Plugin → Add Marketplace → Add from a repository**,
+then enter `https://github.com/Tiltely/lens` and install `lens` from the catalog.
 
 **Why Experimental:** the engine is built and tested on Claude Code; on Cowork it is
 not yet fully verified end-to-end. What to expect:
