@@ -89,9 +89,11 @@ and PRs from Cowork use are especially welcome.
 
 Every user runs their OWN foundry — a private folder where the session-end hook
 queues your lens sessions, `/lens:retro` mines them, and `/lens:new` grows lenses
-that fit YOUR work. Personal lenses scaffold into `~/.claude/skills/` and load next
-session — no fork, no plugin rebuild — and `/lens:socratic` plans with them alongside
-the bundled set. Run `/lens:setup` once per machine to enable it: it picks the
+that fit YOUR work. Personal lenses scaffold into `~/.claude/skills/lens-<name>/` and
+are **directly invocable as `/lens-<name>`** after `/reload-plugins` (or a new
+session), and `/lens:socratic` plans with them alongside the bundled set. They live
+OUTSIDE the plugin, so plugin auto-updates never overwrite them — your collection is
+yours. Run `/lens:setup` once per machine to enable it: it picks the
 location — `~/.claude/lens-foundry/` on Claude Code, or `~/lens/` for a cross-surface
 setup that also works in Cowork (no git required). The hook finds the config in order:
 `$LENS_CONFIG` → `~/.claude/lens.json` → `~/lens/lens.json`.

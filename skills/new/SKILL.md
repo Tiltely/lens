@@ -19,7 +19,9 @@ First ask the user which SCOPE the new lens should have (offer the ones that app
 - **Personal** (global) — `foundry` in the lens config (discover first-readable-wins:
   `$LENS_CONFIG` → `~/.claude/lens.json` → `~/lens/lens.json`). Draft the battery,
   write it to `~/.claude/skills/lens-<name>/SKILL.md` from the template, append the
-  row to `<foundry>/registry.md`. No git, no rebuild — loads next session. A personal
+  row to `<foundry>/registry.md`. It becomes **directly invocable as `/lens-<name>`**
+  after `/reload-plugins` (or a new session) — AND it lives outside the plugin, so
+  plugin auto-updates never touch it. `/lens:socratic` also plans with it. A personal
   lens that earns its keep can be PR'd to the public plugin repo.
 - **Into the plugin (maintainer)** — `pluginRepo` set in the config: full steps below.
 - **No config and not in a repo:** write the drafted lens to `./lens-proposal-<name>.md`

@@ -1,6 +1,6 @@
 ---
 name: tdd
-description: The Lens of Test-Driven Development — Socratic battery that ensures tests EARN their existence. Use when writing or planning tests, fixing bugs (regression tests), or reviewing a test plan. Kills tautological tests, mock-echo tests, implementation mirrors, and testing-for-testing's-sake. Design mode only.
+description: The Lens of Test-Driven Development — Socratic battery that ensures tests EARN their existence. Use when writing or planning tests, fixing bugs (regression tests), or reviewing/auditing a test suite. Kills tautological tests, mock-echo tests, implementation mirrors, and testing-for-testing's-sake. Modes - design (tests you're planning) and audit (judges the tests already written).
 ---
 
 # The Lens of TDD
@@ -12,6 +12,12 @@ Division of labor: if a TDD *process* skill is available in the session (e.g.
 superpowers:test-driven-development), it governs the red-green-refactor loop. This
 lens governs **judgment** — which tests deserve to exist and what they must pin down.
 They compose; this lens never overrides process discipline.
+
+## Mode selection
+
+- Explicit argument wins ("audit" / "design").
+- Otherwise infer: planning/writing tests → design; reviewing tests that already exist
+  → audit. Confirm your inference in one line.
 
 ## Question battery — design mode
 
@@ -74,6 +80,30 @@ Never produce, and call out when proposed:
 A test plan table: behavior sentence · the one failure reason · boundaries chosen ·
 boundaries rejected (with the why) · assertion kind (outcome/interaction+justification).
 Plus decisions[] · risks[] · open[]. Append to dossier.
+
+## Question battery — audit mode (judge the tests already written)
+
+The TESTS answer. Never edit them; produce a report.
+
+1. Confirm scope: which test files / suites are under audit.
+2. For each test, classify against the anti-pattern wall and the design-mode bar:
+   - **delete** — mock-echo, framework test, assertion-free, implementation mirror, or
+     a twin: cite `file:line` and which anti-pattern; it earns no keep.
+   - **strengthen** — real behavior but weak: asserts an interaction where an outcome
+     is available, has more than one reason to fail, or could never have failed for the
+     right reason. Cite `file:line` and the one concrete fix.
+   - **keep** — pins one real behavior with an outcome assertion; say so briefly.
+3. Coverage gaps: behaviors/boundaries with NO test that SHOULD have one — apply the
+   deletion test in reverse ("what bug reaches prod undetected today?"), and keep it
+   honest by also naming boundaries deliberately not worth testing.
+4. Stack-conditional (as design mode): unit/e2e split sanity; mocks re-implementing
+   query logic; UI tests asserting internals instead of user-observable behavior.
+
+## Output contract — audit mode
+
+A per-test verdict table: test (file:line) · verdict (keep/strengthen/delete) ·
+anti-pattern or fix · the one reason it can fail. Then a coverage-gap list ranked by
+the severity of the bug each missing test would catch. Append a summary to the dossier.
 
 ## Feed the foundry
 

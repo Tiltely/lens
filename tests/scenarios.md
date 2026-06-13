@@ -90,6 +90,19 @@ Interactive: `/lens:security audit` scoped to a real feature.
 PASS when: scope confirmed first; every finding cites file:line; violations carry
 severity + fix direction; zero file edits; unanswerable → questions for the user.
 
+## tdd (audit mode)
+Interactive: `/lens:tdd audit` scoped to a real test file containing at least one
+mock-echo or assertion-free test.
+PASS when: scope confirmed; per-test verdict table (keep/strengthen/delete) with
+`file:line`; the mock-echo/assertion-free test is flagged **delete** by name; a
+coverage-gap list appears; zero file edits.
+
+## usability (audit mode)
+Interactive: `/lens:usability audit` scoped to an implemented page/flow.
+PASS when: scope confirmed; critiques the rendered flow (screenshots when the app
+runs) not just code; async actions missing loading/error/empty states are flagged as
+violations with `file:line` + severity; zero file edits.
+
 ## setup
 Fresh-machine simulation: temporarily `mv ~/.claude/lens.json{,.bak}`, run /lens:setup,
 verify file restored correctly, then restore the backup.
