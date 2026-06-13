@@ -5,6 +5,16 @@ the `version` field in `.claude-plugin/plugin.json` is the source of truth and i
 bumped on every meaningful change (it's the cache key Claude Code and Cowork use to
 detect updates). This file is informational and does not affect update detection.
 
+## [0.4.1] — 2026-06-13
+
+### Fixed
+- `/lens:setup` now states the foundry holds PERSONAL session data and **must not be
+  committed to git** (default to a non-tracked folder; gitignore the queues + dossier
+  if a synced repo is unavoidable).
+- Corrected the Cowork foundry guidance: Cowork's VM home (`~`) is EPHEMERAL, so
+  `~/lens/` would vanish between sessions — the foundry must be a REAL, persistent
+  folder the user grants Cowork access to. README updated to match.
+
 ## [0.4.0] — 2026-06-13
 
 ### Changed

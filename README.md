@@ -51,13 +51,13 @@ verified at the skill level, with the memory loop working under one extra setup 
 
 - **Works out of the box:** the lenses and `/lens:socratic` (skills are
   cross-platform) — no setup, no config.
-- **Memory loop — needs a Cowork-safe foundry:** Cowork's sandbox blocks read/write
-  to `~/.claude/`, so the default Code foundry is invisible there. Put your config
-  and foundry under `~/lens/` instead (the hook discovers config in order:
-  `$LENS_CONFIG` → `~/.claude/lens.json` → `~/lens/lens.json`), and grant Cowork
-  filesystem access to `~/lens/`. Then the SessionEnd hook + `/lens:retro` work on
-  Cowork's local VM. Run `/lens:setup` and choose the cross-surface (`~/lens/`)
-  location.
+- **Memory loop — needs a Cowork-safe foundry:** Cowork blocks `~/.claude/` AND its VM
+  home (`~`) is EPHEMERAL, so the foundry must be a REAL, persistent folder you GRANT
+  Cowork access to (e.g. `/Users/<you>/lens-foundry/`) — never under `~`. Point
+  `$LENS_CONFIG` (or the config there) at it; for one shared loop, point Code at the
+  same real folder. Then the SessionEnd hook + `/lens:retro` work on Cowork's VM. Run
+  `/lens:setup` — it detects Cowork and walks you through granting a folder. **Never
+  put the foundry in a git working tree** (personal session data).
 - **Code-flavored, degrades gracefully:** `/lens:tdd` and stack detection assume a
   codebase; on a non-code project, detection finds no stack and falls back to the
   generic battery — nothing breaks, some lenses are just less relevant.
@@ -66,9 +66,9 @@ verified at the skill level, with the memory loop working under one extra setup 
   read-inline by `/lens:socratic` — no `~/.claude/skills/` write, so the sandbox block
   doesn't apply. The loop (queue + retro) and authoring both work on Code and Cowork.
 
-To verify on your machine: `/lens:setup` (cross-surface location), grant Cowork access
-to `~/lens/`, run `/lens:socratic` on a real task, end the session, and confirm a line
-landed in `~/lens/foundry/pending-retros.jsonl`.
+To verify on your machine: `/lens:setup`, grant Cowork your chosen real folder, run
+`/lens:socratic` on a real task, end the session, and confirm a line landed in
+`<that folder>/pending-retros.jsonl`.
 
 First-class, non-code lenses and depth packs for Cowork are on the roadmap. Feedback
 and PRs from Cowork use are especially welcome.
@@ -111,11 +111,13 @@ slash command or share it with a team, commit its `SKILL.md` to
 
 The session-end hook queues your lens sessions into your foundry, `/lens:retro` mines
 them, and `/lens:new` grows your collection. Run `/lens:setup` once per machine: it
-picks the foundry location — `~/.claude/lens-foundry/` on Claude Code, or `~/lens/`
-for a cross-surface setup that also works in Cowork (no git required). The hook finds
-the config in order: `$LENS_CONFIG` → `~/.claude/lens.json` → `~/lens/lens.json`. The
-loop stays global — project lenses are mined into your one foundry like any other
-session. Without setup, all lenses and `/lens:socratic` still work; only the hook
+picks the foundry location — `~/.claude/lens-foundry/` on Claude Code, or a real
+granted folder (e.g. `/Users/<you>/lens-foundry/`) on Cowork, whose VM home is
+ephemeral. The hook finds the config in order: `$LENS_CONFIG` → `~/.claude/lens.json`
+→ `~/lens/lens.json`. The foundry holds personal session data — **keep it out of git**
+(gitignore it if it must live in a repo). The loop stays global — project lenses are
+mined into your one foundry like any other session. Without setup, all lenses and
+`/lens:socratic` still work; only the hook
 silently does nothing.
 
 ## How it works
