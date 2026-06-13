@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="assets/banner.gif" alt="lens — Socratic lenses for software engineering" width="640">
+  <img src="assets/banner.gif" alt="lens — Socratic lenses for software engineering" width="100%">
 </p>
 
 # lens — Socratic lenses for software engineering
