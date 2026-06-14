@@ -5,6 +5,22 @@ the `version` field in `.claude-plugin/plugin.json` is the source of truth and i
 bumped on every meaningful change (it's the cache key Claude Code and Cowork use to
 detect updates). This file is informational and does not affect update detection.
 
+## [0.6.0] — 2026-06-14
+
+### Added
+- **The Lens of Observability** (`/lens:observability`) — the operational angle the
+  other lenses miss: not "is the happy path correct" but "when it breaks silently at
+  3am, how do we KNOW, and how does the stranded user/record recover". Its obsession is
+  the **orphan** — a user or record stuck mid-flow because an external event was lost or
+  a step failed with nothing watching. Design + audit modes; a surface-conditional
+  battery over webhooks (lost / late / out-of-order events, durable idempotent dedupe),
+  multi-step state machines (server-derived resume, stuck-state sweeps), money audit
+  trails, and background jobs (ran-and-succeeded vs silently failed) — closing with the
+  self-challenge "if the riskiest external dependency went silent for an hour, how many
+  users would be stranded, and which would we ever find out about?". Scaffolded via
+  `/lens:new` from a real gap mined by `/lens:retro` — no existing lens covered
+  anti-orphan detection and recovery.
+
 ## [0.5.1] — 2026-06-13
 
 ### Changed

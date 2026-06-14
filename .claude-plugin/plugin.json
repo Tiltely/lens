@@ -1,10 +1,10 @@
 {
   "name": "lens",
-  "version": "0.5.1",
-  "description": "Socratic lenses for software engineering: question batteries that examine your work from security, design, usability, and test-quality perspectives — plus an orchestrator that surfaces caveats, rabbit holes, and blast radius before you build, and a memory loop that grows new lenses from your real sessions.",
+  "version": "0.6.0",
+  "description": "Socratic lenses for software engineering: question batteries that examine your work from security, design, usability, test-quality, and operational-recovery perspectives — plus an orchestrator that surfaces caveats, rabbit holes, and blast radius before you build, and a memory loop that grows new lenses from your real sessions.",
   "author": { "name": "Tiltely", "email": "leo@tiltely.com", "url": "https://www.tiltely.com" },
   "homepage": "https://github.com/Tiltely/lens",
   "repository": "https://github.com/Tiltely/lens",
   "license": "MIT",
-  "keywords": ["socratic", "lenses", "design-review", "security", "usability", "tdd", "questions"]
+  "keywords": ["socratic", "lenses", "design-review", "security", "usability", "tdd", "observability", "questions"]
 }
