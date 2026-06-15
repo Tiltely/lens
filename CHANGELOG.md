@@ -5,6 +5,29 @@ the `version` field in `.claude-plugin/plugin.json` is the source of truth and i
 bumped on every meaningful change (it's the cache key Claude Code and Cowork use to
 detect updates). This file is informational and does not affect update detection.
 
+## [0.8.0] — 2026-06-15
+
+### Added
+- **Partition mode for `/lens:socratic` — split a finished multi-feature dossier into
+  parallel git worktrees.** A request bundling several INDEPENDENT features can now be
+  decomposed for concurrent implementation. Discovery is unchanged: you run the full
+  socratic design flow to ONE complete dossier. Then partition (opt-in post-adversary, or
+  standalone via `/lens:socratic partition`) reads the dossier's already-mapped
+  blast-radius and proposes a split — independent features (disjoint files/contracts) →
+  their own worktree; coupled features → merged or sequenced (parallelism only where it's
+  safe, so reconciliation stays clean). On approval it creates one `git worktree` +
+  `lens/<feature-slug>` branch per feature, copies the COMPLETE dossier in with a feature
+  manifest (shared global context, never a trimmed sub-dossier), and records each worktree
+  path in a new `## partition` section. Reconciliation reuses audit mode: audit each
+  worktree against its dossier, then merge in the recorded order.
+- A single-feature request is unaffected — partition is a SUPERSET that activates only when
+  the blast-radius shows independent features, and always with explicit consent.
+
+### Notes
+- **Materializing worktrees is Claude-Code-only** (like the memory loop). On Cowork the
+  partition PLAN (`## partition`) is still produced — pure reasoning — but worktrees are
+  not created; apply the plan with Cowork's own parallelism.
+
 ## [0.7.0] — 2026-06-15
 
 ### Changed
@@ -148,6 +171,11 @@ First versioned release. Public plugin at `github.com/Tiltely/lens`, MIT.
   `~/.claude/lens.json` → `~/lens/lens.json`).
 - Adopted explicit semver (Cowork detects updates by the `version` field, not the SHA).
 
+[0.8.0]: https://github.com/Tiltely/lens/releases/tag/v0.8.0
+[0.7.0]: https://github.com/Tiltely/lens/releases/tag/v0.7.0
+[0.6.0]: https://github.com/Tiltely/lens/releases/tag/v0.6.0
+[0.5.1]: https://github.com/Tiltely/lens/releases/tag/v0.5.1
+[0.5.0]: https://github.com/Tiltely/lens/releases/tag/v0.5.0
 [0.4.0]: https://github.com/Tiltely/lens/releases/tag/v0.4.0
 [0.3.0]: https://github.com/Tiltely/lens/releases/tag/v0.3.0
 [0.2.0]: https://github.com/Tiltely/lens/releases/tag/v0.2.0

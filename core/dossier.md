@@ -138,6 +138,68 @@ worktree's toplevel gives it its own dossier).
                        decisions"); non-trivial ripples become frontier branches
     ## caveats / rabbit-holes / blast-radius / platform-matrix  ← the four excavations (protocol.md)
     ## open          ← branches consciously DEFERRED at synthesis + who/what resolves them
+    ## partition     ← OPTIONAL: the parallel-feature split (see "Partition" below);
+                       written only when a multi-feature dossier is split for worktrees
+
+## Partition (parallel features)
+
+A request that bundles several INDEPENDENT features can be split into N worktrees,
+implemented in parallel, then reconciled. OPTIONAL; runs only AFTER the full dossier is
+final (post-adversary) — discovery is never partitioned, only the finished dossier is
+(socratic/SKILL.md "Flow — partition mode").
+
+**Independent vs coupled — the decision procedure** (don't hand-wave it): from the
+`blast-radius`, enumerate the concrete files/symbols/contracts each feature touches. Two
+features parallelize ONLY if those sets are disjoint. ANY of these forces couple-or-sequence
+(never parallel): a shared file or contract; one depends on the other's output; a shared
+migration sequence; a shared lockfile or config. Parallelism only where it is provably safe
+— coupled work in parallel worktrees is merge hell.
+
+The `## partition` section records the plan (Cowork-safe — pure text, no git action). EVERY
+row, independent or coupled, carries `touches:` + `worktree:` so reconciliation can locate
+each one:
+
+    ## partition
+    - feature: <slug> · independent · touches: <files/areas> · worktree: <path|pending>
+    - feature: <slug> · independent · touches: <files/areas> · worktree: <path|pending>
+    - feature: <slug> · COUPLED(<area>; was <a>+<b>) · touches: <files/areas> · worktree: <path|pending>
+    reconciliation order: <slug>, <slug>, …  (independent first; coupled/sequential last)
+
+`<feature-slug>` uses the SAME sanitization as `<branch-slug>` ("Where it lives"): lowercase,
+non-`[a-z0-9._-]`→`-`, collapse, trim. It MUST be non-empty and UNIQUE across features (append
+`-2`, `-3`… on collision). A coupled group gets ONE canonical slug — never `a+b` (an illegal
+branch name).
+
+**Materialization is Claude-Code-only** — worktrees are an environment capability, like the
+memory loop; on Cowork this step declines and the user applies the `## partition` plan with
+Cowork's own parallelism. Partition has NO branch gate of its own, so first ensure HEAD is a
+FEATURE branch: if it is a base branch (`main`/`master`/`develop`/`trunk`), STOP and have the
+user switch to the branch holding this work — else every worktree would branch off base. Then
+per feature:
+
+1. **Locate** the worktree: delegate to the `using-git-worktrees` skill if present, else a
+   deterministic sibling path `<toplevel>-worktrees/<feature-slug>`. If that path OR the
+   branch `lens/<feature-slug>` already exists, REUSE it (idempotent re-run) or, on a genuine
+   conflict, ask — never hard-fail a half-done partition.
+2. **Create** it from the current feature branch, base pinned explicitly:
+   `git worktree add <path> -b lens/<feature-slug> HEAD`.
+3. **Write the dossier** into the worktree at ITS branch-derived path — both `<slug>` and
+   `<hash>` derive from the FULL raw branch `lens/<feature-slug>` by the same rule as "Where
+   it lives" (NOT from the bare feature-slug), i.e.
+   `<path>/.lens/dossiers/<sanitize(lens/<feature-slug>)>--<sha1(lens/<feature-slug>)[:7]>.md`.
+   Copy the COMPLETE dossier (shared global context — never a trimmed sub-dossier) but REWRITE
+   its `branch:` header to `lens/<feature-slug>` (keep `# Lens Dossier` as line 1 so audit
+   re-find's header parse + branch-match succeed inside the worktree). Add the manifest as a
+   SECTION, not a prepended block:
+
+       ## feature manifest
+       feature: <slug>
+       scope: <one line — what THIS worktree implements>
+       touches: <files/areas from the partition>
+       shared decisions: see ## decisions (global — do not contradict the other features)
+
+4. **Record** the worktree's `<path>` back in the source dossier's `## partition` so
+   reconciliation (audit mode, per worktree) can find every feature.
 
 ## Cleanup (hygiene, not correctness)
 

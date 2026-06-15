@@ -89,6 +89,8 @@ Every discovery dialogue must surface, explicitly and by name:
   can be consciously deferred or descended into.
 - **Blast radius** — every system, repo, platform, and person a change touches:
   API, web, mobile, DB migrations, infra, third parties, documentation, the team.
+  (This map is also the INPUT to partition mode: disjoint blast radii are what make two
+  features safe to build in parallel worktrees — see socratic/SKILL.md "Flow — partition mode".)
 - **Platform matrix** — for any feature that touches platform capabilities (install
   flows, storage, push, media, sensors, gestures): on which platforms/browsers does
   the behavior differ, what is the fallback where it is unsupported, and on which
