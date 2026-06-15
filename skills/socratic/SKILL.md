@@ -15,8 +15,15 @@ reviewing something already built → audit (confirm your inference in one line)
 
 ## Flow — design mode
 
-1. **Dossier**: create/reset `.lens-dossier.md` per dossier.md (goal + date header;
-   git exclusion). Run stack detection (core/stack-detection.md); record `stack:`.
+1. **Dossier**: per dossier.md. FIRST run the **branch gate** (dossier.md "Branch
+   gate") — if on a base branch (`main`/`master`/`develop`/`trunk`), STOP and offer to
+   create `lens/<goal-slug>`, stay, or use a worktree, and WAIT; if already on a feature
+   branch, proceed silently. THEN create the branch-scoped dossier at
+   `<toplevel>/.lens/dossiers/<branch-slug>--<hash>.md` (goal + date + `branch:` header;
+   `.lens/` git exclusion). No global reset — only this branch's file is written, so a
+   concurrent session on another branch is untouched; if the legacy `.lens-dossier.md`
+   exists, offer the one-time migration (dossier.md). Run stack detection
+   (core/stack-detection.md); record `stack:`.
 2. **Socratic rounds** (protocol.md rules — ONE question at a time; classify each
    as fact vs intent first: fact questions get the evidence pass — current repo,
    sibling/org repos, CLAUDE.md — and arrive as confirmations when evidence exists):
@@ -76,10 +83,13 @@ reviewing something already built → audit (confirm your inference in one line)
 Closes the loop the design session opened. The dossier is the contract; the audit
 verifies the implementation against it. Never edit code; produce a report.
 
-1. **Read the dossier.** Valid one (goal matches what was built, has a lens plan and
-   decisions) → it defines the audit: scope = its goal + blast-radius map; lens set =
-   the design-time lens plan. No valid dossier → confirm scope with the user and
-   build an audit plan from registry trigger signals instead.
+1. **Read the dossier** (resolve it per dossier.md "Audit re-find": recompute the
+   current branch's path first; if absent — branch renamed/squashed — glob
+   `.lens/dossiers/*.md` and let the user pick by goal/date/branch). A valid one (goal
+   matches what was built, has a lens plan and decisions) → it defines the audit: scope
+   = its goal + blast-radius map; lens set = the design-time lens plan. No valid dossier
+   → confirm scope with the user and build an audit plan from registry trigger signals
+   instead. (Audit never moves branches — it only reads.)
 2. **Confirm the audit plan** with the user: which lenses run (only those whose
    registry row includes `audit` mode — name the planned lenses that lack audit mode
    and skip them explicitly), over which paths. Prunable, like the design plan.

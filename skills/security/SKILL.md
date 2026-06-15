@@ -16,8 +16,8 @@ Read first: ${CLAUDE_PLUGIN_ROOT}/core/protocol.md and ${CLAUDE_PLUGIN_ROOT}/cor
 
 ## Before asking anything
 
-1. Read `.lens-dossier.md` if valid (dossier.md rules). For every battery question
-   already answered there, SKIP it and print the skip line.
+1. Read the dossier if valid — resolve it per dossier.md (the branch-scoped path). For
+   every battery question already answered there, SKIP it and print the skip line.
 2. Ensure `stack:` is known (core/stack-detection.md) — it selects Tier 2.
 
 ## Question battery — design mode

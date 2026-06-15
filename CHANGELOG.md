@@ -5,6 +5,38 @@ the `version` field in `.claude-plugin/plugin.json` is the source of truth and i
 bumped on every meaningful change (it's the cache key Claude Code and Cowork use to
 detect updates). This file is informational and does not affect update detection.
 
+## [0.7.0] — 2026-06-15
+
+### Changed
+- **The dossier is now branch-scoped — one per request, not one fixed file.** Previously
+  every project shared a single `<root>/.lens-dossier.md` that design step 1 CREATE/RESET
+  in place. Running two `/lens:socratic` sessions concurrently in the same checkout meant
+  the second reset truncated the first's discovery, appends interleaved two goals into one
+  incoherent file, and the goal+7-day validity check could feed a standalone lens the
+  WRONG request's answers (and the audit the wrong contract). The single-writer rule never
+  covered this — it only governs intra-session writes. Now the dossier lives at
+  `<toplevel>/.lens/dossiers/<branch-slug>--<hash>.md`, a deterministic function of the git
+  branch, so concurrent sessions on different branches/worktrees write different files and
+  never clobber each other. The audit re-finds its dossier by recomputing the branch path
+  (no shared pointer or index); if the branch was renamed/squash-merged it falls back to a
+  goal/date/branch pick from `.lens/dossiers/`. Reset is now per-branch, never global.
+
+### Added
+- **Defensive branch gate** in design step 1: if you start `/lens:socratic` on a base
+  branch (`main`/`master`/`develop`/`trunk`), it STOPS and offers to create
+  `lens/<goal-slug>`, stay on base, or spin a worktree — never switching branches
+  silently. On a feature
+  branch it stays silent. Keeps the dossier from being born orphaned on trunk.
+- **Per-branch dossier header** (`branch:`), opportunistic GC of dossiers for deleted
+  branches (consented, never automatic), and a one-time OFFER to migrate a legacy
+  `.lens-dossier.md` into the new layout.
+
+### Notes
+- Git exclusion collapses to the single `.lens/` pattern (the directory `/lens:new`
+  already excludes), replacing the literal `.lens-dossier.md` excludes.
+- Accepted residual: two sessions on the SAME branch AND worktree still share a file
+  (last-writer-wins) — use separate worktrees for genuine parallelism.
+
 ## [0.6.0] — 2026-06-14
 
 ### Added

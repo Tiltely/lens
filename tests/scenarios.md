@@ -4,8 +4,10 @@ Run each before shipping changes to the named skill. Dev loop:
 `claude --plugin-dir /Users/leonardo/Tiltely/lens` (interactive) or `-p` (headless).
 
 ## socratic (design flow, end-to-end)
-Interactive: `/lens:socratic "add a favorites feature to recaply web"`
-PASS when: dossier created with goal+date+stack; questions arrive ONE at a time;
+Interactive (on a feature branch): `/lens:socratic "add a favorites feature to recaply web"`
+PASS when: dossier created at `.lens/dossiers/<branch-slug>--<hash>.md` with
+goal+date+branch+stack (NOT the legacy root `.lens-dossier.md`); the branch gate stays
+silent because you are already on a feature branch; questions arrive ONE at a time;
 caveats/rabbit-holes/blast-radius explicitly named; lens plan presented and prunable;
 chained lenses print skip lines for dossier-answered questions; synthesis lists
 decisions/risks/open/actions; retro reminder appears.
@@ -37,12 +39,23 @@ mobile share this?), deps — and each non-trivial ripple becomes a frontier bra
 blast-radius entry, not a silent assumption.
 
 ## socratic (audit mode)
-Interactive: `/lens:socratic audit` in a project with a dossier from a prior design
-session whose implementation has landed.
-PASS when: dossier recognized as the contract (no re-scoping questions the dossier
-answers); audit plan = design-time lens plan, audit-capable lenses only, skipped
+Interactive: `/lens:socratic audit` on the SAME branch as a prior design session whose
+implementation has landed.
+PASS when: the branch's dossier is re-found by recomputing the branch path (no shared
+pointer); recognized as the contract (no re-scoping questions the dossier answers);
+audit does NOT move branches; audit plan = design-time lens plan, audit-capable lenses only, skipped
 ones named; contract check covers every recorded decision (file:line or drift flag),
 open question, and accepted risk; zero file edits; retro reminder at close.
+
+## socratic (branch gate + per-branch isolation)
+Interactive: from a base branch (`main`), `/lens:socratic "some task"`.
+PASS when: design step 1 STOPS at the branch gate and offers create-`lens/<goal-slug>` /
+stay-on-base / worktree — it does NOT switch branches silently; choosing "create" lands
+you on `lens/<goal-slug>` and the dossier is written under that branch's path. Then run a
+second `/lens:socratic` concurrently on a DIFFERENT branch (or worktree): each writes
+its own `.lens/dossiers/<branch>--<hash>.md` and neither resets the other (no lost
+discovery). Already on a feature branch → the gate is silent. A legacy root
+`.lens-dossier.md`, if present, triggers a one-time migration OFFER (never silent).
 
 ## socratic (project-scoped lenses)
 Setup: in a git repo, create `.lens/registry.md` with one `lens` row (e.g. `compliance`)

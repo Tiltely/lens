@@ -22,8 +22,8 @@ with nothing watching.
 
 ## Before asking anything
 
-1. Read `.lens-dossier.md` if valid (dossier.md rules). Skip answered questions WITH
-   skip lines.
+1. Read the dossier if valid — resolve it per dossier.md (the branch-scoped path). Skip
+   answered questions WITH skip lines.
 2. Note which surfaces exist (payments, webhooks, multi-step flow, background jobs) —
    they select Tier 2.
 

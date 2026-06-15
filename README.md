@@ -107,7 +107,9 @@ not run on Cowork (the lenses do).
 ## How it works
 
 Lenses are three-tier question batteries (framing → stack-conditional → deep dives)
-that share a session dossier, so no lens re-asks what another already learned —
+that share a branch-scoped session dossier (one per request, keyed on the git branch,
+so concurrent sessions on different branches never collide), so no lens re-asks what
+another already learned —
 you'll see `skipping: …` lines instead. The orchestrator keeps a live mind-map of the
 branches each answer opens (the frontier) and knows when to stop — it digs into
 high-stakes branches and defaults the trivial ones instead of interrogating forever.
