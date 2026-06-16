@@ -1,6 +1,6 @@
 ---
 name: socratic
-description: Use when starting any non-trivial feature, issue, or objective — BEFORE designing or coding — and again AFTER implementing, to audit it. Design mode runs iterative Socratic discovery (caveats, rabbit holes, blast radius), then plans and chains the right lenses. Audit mode re-runs the session's lens plan against the implemented code and verifies it against the dossier's recorded decisions. Partition mode splits a finished multi-feature dossier into parallel git worktrees (one per independent feature) for concurrent implementation, then reconciles. Trigger phrases - "let's build", "add feature", "how should we approach", "split this into parallel work", "audit what we built", "review the implementation".
+description: Use when starting any non-trivial feature, issue, or objective — BEFORE designing or coding — and again AFTER implementing, to audit it. Design mode runs iterative Socratic discovery (caveats, rabbit holes, blast radius), then plans and chains the right lenses. Audit mode re-runs the session's lens plan against the implemented code and verifies it against the dossier's recorded decisions. Trigger phrases - "let's build", "add feature", "how should we approach", "audit what we built", "review the implementation".
 ---
 
 # Socratic Discovery Orchestrator
@@ -74,52 +74,9 @@ reviewing something already built → audit (confirm your inference in one line)
    frontier branch (→ back to step 2) / accept as explicit risk. The plan is FINAL only
    after it survives. Then write the final dossier state. (This step is not pruned —
    the adversarial pass reliably finds what discovery missed.)
-7. **Partition (optional — only if the request bundles parallelizable features)**: once
-   the dossier is FINAL, if its `blast-radius` shows the work splits into INDEPENDENT
-   features, OFFER to partition it for worktree-parallel implementation — the split plan is
-   produced everywhere, but materializing worktrees is Claude-Code-only (see "Flow —
-   partition mode"). A single feature → skip silently (exactly v0.7.0). Fully-coupled
-   multi-feature work → the offer is allowed to no-op (nothing safe to parallelize). This
-   mode is a SUPERSET of single-feature socratic, never a replacement; never create worktrees
-   without an explicit OK. The partition flow is below; it also runs standalone.
-8. **Close**: remind the user — after the implementation lands, run
-   `/lens:socratic audit` to verify it against this dossier (or `/lens:socratic partition`
-   if you deferred the split), and /lens:retro after that (the SessionEnd hook has already
-   queued this session if any lens ran).
-
-## Flow — partition mode (`/lens:socratic partition`)
-
-Turns a FINISHED multi-feature dossier into N parallel worktrees, then reconciles. Runs at
-the end of design mode (opt-in, step 7) or standalone over an existing dossier. Discovery is
-never re-run here — partition operates on the finished dossier only. **Phases 1–2 (plan) work
-everywhere, including Cowork; materializing worktrees (phase 3) is Claude-Code-only — on
-Cowork phase 3 declines and you keep the `## partition` plan.**
-
-1. **Read + finality gate.** Resolve the dossier (dossier.md "Audit re-find"). It must be
-   FINAL, not merely valid: a non-empty `## decisions`, a populated `## blast-radius`, and the
-   adversary pass run. A recent-but-half-built dossier (passes the 7-day validity but has no
-   decisions / no blast-radius) is NOT partitionable → refuse and route to design mode.
-2. **Propose the split** (dossier.md "Partition" — use its independent-vs-coupled procedure):
-   group the work by the files/contracts each feature touches — disjoint sets → candidate
-   worktrees; any overlap or build-order dependency → merge into one feature or sequence.
-   Parallelism ONLY where safe. Present the `## partition` plan (each feature, what it
-   touches, the reconciliation order) and WAIT for approval. Prunable like any plan.
-3. **Materialize** — Claude Code only (on Cowork, DECLINE and hand over the `## partition`
-   plan to apply with Cowork's own parallelism). First ensure HEAD is a FEATURE branch, not a
-   base branch (partition has no gate of its own; on `main`/`master`/`develop`/`trunk`, STOP
-   and have the user switch to the branch holding this work). Then materialize each feature
-   per dossier.md "Partition": locate the worktree (delegate to `using-git-worktrees` if
-   present, else a deterministic sibling path; reuse on re-run, never hard-fail),
-   `git worktree add <path> -b lens/<feature-slug> HEAD`, write the COMPLETE dossier into the
-   worktree with its `branch:` rewritten + a `## feature manifest` section, and record each
-   worktree `<path>` back in `## partition`. Tell the user to open one session per worktree
-   and implement there.
-4. **Reconcile** (after the parallel work lands). Read the worktree paths from the source
-   dossier's `## partition`; for EACH, cd into the worktree and run `/lens:socratic audit`
-   against its (now branch-matched) dossier. Then merge into a dedicated integration branch
-   off the original, in the `## partition` reconciliation order (independent first) — the
-   recorded contact points are the EXPECTED conflicts to hand-resolve. Finally, with consent,
-   clean up: `git worktree remove <path>` and delete the merged `lens/<feature-slug>` branches.
+7. **Close**: remind the user — after the implementation lands, run
+   `/lens:socratic audit` to verify it against this dossier, and /lens:retro after
+   that (the SessionEnd hook has already queued this session if any lens ran).
 
 ## Flow — audit mode (`/lens:socratic audit`)
 

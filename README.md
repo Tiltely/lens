@@ -55,16 +55,11 @@ your own lenses) lives on Claude Code. Run `/lens:setup` on Code to enable it th
 Code-flavored lenses like `/lens:tdd` still load on Cowork; on non-code work they just
 fall back to a generic battery.
 
-**Worktree partition is Claude Code only too.** `/lens:socratic partition` PLANS the split
-on Cowork (it's pure reasoning + the `## partition` text), but MATERIALIZING git worktrees
-is a Claude Code capability — on Cowork the split declines and you apply the plan with
-Cowork's own parallelism.
-
 ## Commands
 
 | Command | What it does |
 |---|---|
-| `/lens:socratic "<goal>"` | Socratic discovery → caveats, rabbit holes, blast radius, platform matrix → chains the right lenses, keeping a live mind-map of branches and knowing when to stop. `audit` re-runs the session's lens plan against the built code and verifies every recorded decision. `partition` splits a finished multi-feature dossier into one git worktree per independent feature (by blast-radius), then reconciles via audit (worktree creation is Claude Code only) |
+| `/lens:socratic "<goal>"` | Socratic discovery → caveats, rabbit holes, blast radius, platform matrix → chains the right lenses, keeping a live mind-map of branches and knowing when to stop. `audit` re-runs the session's lens plan against the built code and verifies every recorded decision |
 | `/lens:security` | Sessions, tokens, authz — design dialogue or code audit with file:line findings |
 | `/lens:design` | Interface design, library-agnostic: ranked component candidates in YOUR design system, deep platform questions (PWA pack), and a professional critique of implemented UI (keep/refine/rework) |
 | `/lens:usability` | End-user flows, missing states, navigation, i18n |
@@ -118,9 +113,6 @@ another already learned —
 you'll see `skipping: …` lines instead. The orchestrator keeps a live mind-map of the
 branches each answer opens (the frontier) and knows when to stop — it digs into
 high-stakes branches and defaults the trivial ones instead of interrogating forever.
-For a request that bundles several independent features, **partition mode** splits the
-finished dossier into one git worktree per feature for parallel implementation, then
-reconciles (worktree creation is Claude Code only; on Cowork you get the plan). Full anatomy
-in `core/`.
+Full anatomy in `core/`.
 
 © 2026 Tiltely LLC · MIT

@@ -57,19 +57,6 @@ its own `.lens/dossiers/<branch>--<hash>.md` and neither resets the other (no lo
 discovery). Already on a feature branch → the gate is silent. A legacy root
 `.lens-dossier.md`, if present, triggers a one-time migration OFFER (never silent).
 
-## socratic (partition — multi-feature → parallel worktrees)
-Interactive on a feature branch: run `/lens:socratic` on a request bundling several
-independent features (e.g. "add CSV export AND dark mode AND a rate limiter") to synthesis,
-OR run `/lens:socratic partition` over an existing FINAL dossier.
-PASS when: partition is OFFERED only after the dossier is final (post-adversary), and only
-when blast-radius shows INDEPENDENT features; a single-feature request is NOT offered a
-split (degrades to plain design mode); the proposed `## partition` lists each feature, what
-it touches, and a reconciliation order, with coupled features merged/sequenced (NOT
-parallelized); no worktree is created without explicit OK; on approval each
-`git worktree add … -b lens/<feature-slug>` gets a COPY of the complete dossier + a feature
-manifest header; worktree paths are recorded back in `## partition`. On Cowork: materialize
-DECLINES and the user gets the `## partition` plan instead (no worktrees).
-
 ## socratic (project-scoped lenses)
 Setup: in a git repo, create `.lens/registry.md` with one `lens` row (e.g. `compliance`)
 and `.lens/lenses/compliance/SKILL.md` with a short battery. Run `/lens:socratic` on a

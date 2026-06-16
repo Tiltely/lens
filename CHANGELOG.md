@@ -5,28 +5,25 @@ the `version` field in `.claude-plugin/plugin.json` is the source of truth and i
 bumped on every meaningful change (it's the cache key Claude Code and Cowork use to
 detect updates). This file is informational and does not affect update detection.
 
-## [0.8.0] — 2026-06-15
+## [0.9.0] — 2026-06-16
 
-### Added
-- **Partition mode for `/lens:socratic` — split a finished multi-feature dossier into
-  parallel git worktrees.** A request bundling several INDEPENDENT features can now be
-  decomposed for concurrent implementation. Discovery is unchanged: you run the full
-  socratic design flow to ONE complete dossier. Then partition (opt-in post-adversary, or
-  standalone via `/lens:socratic partition`) reads the dossier's already-mapped
-  blast-radius and proposes a split — independent features (disjoint files/contracts) →
-  their own worktree; coupled features → merged or sequenced (parallelism only where it's
-  safe, so reconciliation stays clean). On approval it creates one `git worktree` +
-  `lens/<feature-slug>` branch per feature, copies the COMPLETE dossier in with a feature
-  manifest (shared global context, never a trimmed sub-dossier), and records each worktree
-  path in a new `## partition` section. Reconciliation reuses audit mode: audit each
-  worktree against its dossier, then merge in the recorded order.
-- A single-feature request is unaffected — partition is a SUPERSET that activates only when
-  the blast-radius shows independent features, and always with explicit consent.
+### Removed
+- **Reverted partition mode (the v0.8.0 worktree split) — it was over-engineering.** It
+  bolted git/build orchestration (materializing worktrees, a shared-foundation phase,
+  reconciliation ordering) onto what should stay a Socratic discovery skill, and produced
+  heavy, hard-to-follow output even for requests that looked simple. lens is back to its
+  one job: discover (rounds, the four excavations, lens plan, mandatory adversary) → a
+  branch-scoped dossier → you implement. **Parallelism is the user's own concern** — create
+  git worktrees when you want them and run a normal socratic session in each; the
+  branch-scoped dossier (v0.7.0) already keeps concurrent sessions from clobbering each
+  other. Removed the Partition section from `dossier.md`, the partition flow + design-step
+  from `socratic`, and the partition entries from registry / protocol / scenarios / README.
+- The v0.7.0 branch-scoped dossier, defensive branch gate, and the auto-release workflow
+  are all unaffected — only the worktree-partition layer is gone.
 
-### Notes
-- **Materializing worktrees is Claude-Code-only** (like the memory loop). On Cowork the
-  partition PLAN (`## partition`) is still produced — pure reasoning — but worktrees are
-  not created; apply the plan with Cowork's own parallelism.
+## [0.8.0] — 2026-06-15 · reverted in 0.9.0
+- Partition mode for `/lens:socratic` (split a finished dossier into parallel git
+  worktrees). Removed in 0.9.0 as over-engineering — see above. Tag/release kept for history.
 
 ## [0.7.0] — 2026-06-15
 
@@ -171,6 +168,7 @@ First versioned release. Public plugin at `github.com/Tiltely/lens`, MIT.
   `~/.claude/lens.json` → `~/lens/lens.json`).
 - Adopted explicit semver (Cowork detects updates by the `version` field, not the SHA).
 
+[0.9.0]: https://github.com/Tiltely/lens/releases/tag/v0.9.0
 [0.8.0]: https://github.com/Tiltely/lens/releases/tag/v0.8.0
 [0.7.0]: https://github.com/Tiltely/lens/releases/tag/v0.7.0
 [0.6.0]: https://github.com/Tiltely/lens/releases/tag/v0.6.0
